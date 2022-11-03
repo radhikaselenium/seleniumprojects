@@ -1,0 +1,539 @@
+Using Environment Variables:
+----------------------------
+
+Steps to add driver s/w's using Environment Variables
+-----------------------------------------------------
+1. Open ThisPC
+2. Right Click and select properties
+3. Click on Advanced System Settings
+4. Click on Environment Variables
+5. Select path and edit under System Variables 
+6. Click on New button 
+7. add the path [where driver s/w's are present] at the last
+8. Click on ok button
+
+
+1. Write a Script to open Firefox browser using Environment Variables
+
+
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+class Launch9
+{
+	public static void main(String[] args)
+	{
+		FirefoxDriver f= new  FirefoxDriver();
+	}
+}
+
+o/p:
+----
+	Firefox Browser should be launched
+-----------------------------------------------------------------------------
+
+Assignments:
+-------------
+2. Write a Script to open Google Chrome browser  using Environment Variables
+
+3. Write a Script to open IE browser using Environment Variables
+
+-----------------------------------------------------------------------------
+
+By Copy - Pasting the driver s/w's into the Project directory:
+---------------------------------------------------------------
+
+Steps involved in Copy - Pasting the driver s/w's into the Project directory:
+-----------------------------------------------------------------------------
+1. Copy the executable file of the driver s/w 
+2. Right click on the project and paste the Driver s/w
+
+
+
+1. Write a Script to open Google Chrome browser by  Copy - Pasting the driver s/w into the Project directory
+
+import org.openqa.selenium.chrome.ChromeDriver;
+
+class Launch10
+{
+	public static void main(String[] args)
+	{
+		ChromeDriver f= new  ChromeDriver();
+	}
+
+}
+
+o/p:
+----
+	Google Chrome should be launched
+-----------------------------------------------------------------------------
+Assignments:
+------------
+2. Write a Script to open Firefox browser by  Copy - Pasting the driver s/w into the Project directory
+
+3. Write a Script to open IE browser by  Copy - Pasting the driver s/w into the Project directory
+-----------------------------------------------------------------------------
+
+WAS to display the title , current url from the gmail application
+either using chrome or firefox browser based on the input provided by the user
+
+Code without using Run Time Polymorphism 
+-----------------------------------------
+
+import java.util.Scanner;
+
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+class Launch11
+{
+	public static void test(FirefoxDriver driver)
+	{
+		driver.get("https://www.gmail.com");
+		String title = driver.getTitle();
+		System.out.println(title);
+		String curl = driver.getCurrentUrl();
+		System.out.println(curl);
+	}
+	
+	public static void test(ChromeDriver driver)
+	{
+		driver.get("https://www.gmail.com");
+		String title = driver.getTitle();
+		System.out.println(title);
+		String curl = driver.getCurrentUrl();
+		System.out.println(curl);
+	}
+	
+public static void main(String[] args) 
+	{
+		System.out.println("Enter the browser name : chrome|firefox");
+		Scanner scan = new Scanner(System.in);
+		String browser = scan.next();
+
+	if (browser.equals("firefox"))
+		{
+			FirefoxDriver f = new  FirefoxDriver();
+			test(f);
+		}
+	else if (browser.equals("chrome"))
+		{
+			ChromeDriver c = new  ChromeDriver();
+			test(c);
+			
+		}
+	else 
+		{
+			System.out.println("Invalid Browser Name.....try again");
+		}
+
+}
+}
+
+
+o/p:
+----
+Enter the browser name : chrome|firefox
+chrome
+----------------
+
+Gmail
+https://accounts.google.com/signin/v2/identifier?service=mail&passive=1209600&osid=1&continue=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F0%2F&followup=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F0%2F&emr=1&flowName=GlifWebSignIn&flowEntry=ServiceLogin
+
+================================================================================================
+Enter the browser name : chrome|firefox
+firefox
+-----------------------
+Gmail
+https://accounts.google.com/ServiceLogin?service=mail&passive=1209600&osid=1&continue=https://mail.google.com/mail/u/0/&followup=https://mail.google.com/mail/u/0/&emr=1
+
+
+***********************************************
+
+Code using Run Time Polymorphism 
+---------------------------------
+
+import java.util.Scanner;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+class Launch12
+{
+	public static void test(WebDriver driver)
+	{
+		driver.get("https://www.gmail.com");
+		String title = driver.getTitle();
+		System.out.println(title);
+		String curl = driver.getCurrentUrl();
+		System.out.println(curl);
+	}
+	
+	
+public static void main(String[] args) 
+	{
+		System.out.println("Enter the browser name : chrome|firefox");
+		Scanner scan = new Scanner(System.in);
+		String browser = scan.next();
+
+	if (browser.equals("firefox"))
+		{
+			FirefoxDriver f = new  FirefoxDriver();
+			test(f);
+		}
+	else if (browser.equals("chrome"))
+		{
+			ChromeDriver c = new  ChromeDriver();
+			test(c);
+			
+		}
+	else 
+		{
+			System.out.println("Invalid Browser Name.....try again");
+		}
+
+}
+}
+
+
+o/p:
+----
+Enter the browser name : chrome|firefox
+chrome
+----------------
+
+Gmail
+https://accounts.google.com/signin/v2/identifier?service=mail&passive=1209600&osid=1&continue=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F0%2F&followup=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F0%2F&emr=1&flowName=GlifWebSignIn&flowEntry=ServiceLogin
+
+================================================================================================
+Enter the browser name : chrome|firefox
+firefox
+-----------------------
+Gmail
+https://accounts.google.com/ServiceLogin?service=mail&passive=1209600&osid=1&continue=https://mail.google.com/mail/u/0/&followup=https://mail.google.com/mail/u/0/&emr=1
+
+
+Diagram 1
+
+----------------------------------------------------------------------------------
+
+Locators:
+---------
+	Locators will help to identify the web elements in the web page so that suitable actions can be performed by selenium
+
+NOTE:
+-----
+	--> A Website is a collection of Web Pages
+	--> A Web Page is a collection of Web Elements
+	--> Anything that we see on a web page is refereed as Web Elements
+
+ex:
+---
+textbox, radiobutton ,dropdown, etc ....
+
+	--> A Web page is made up of HTML
+	--> Whenever Selenium wants to perform any actions on any of the web elements, then it has to identify the web elements
+	--> In order to identify the web elements "Locators" are used
+	--> In selenium , Locators are used to identify the web elements, once its done then selenium can perform the actions 
+
+There are 8 locators 
+
+Basic Locators:
+--------------
+1. id
+2. name 
+3. class 
+4. tagname
+5. linktext
+6. partial linktext 
+
+Advanced Locators:
+-----------------
+7. css selectors 
+8. x path
+
+-------------------------------------------------------------------------------------
+1. id:
+------
+	--> Its a locator which is used to identify the web elements 
+	--> using this we can see the value attached to the id 
+	--> later we can use this to locate the web elements for selenium to perform actions
+	
+1.WAS to navigate to the Facebook application and type the email in the email field using "id" locator
+
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+class Launch13
+{
+	public static void main(String[] args) 
+	{
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("https://www.facebook.com");
+		
+		WebElement email = driver.findElement(By.id("email"));
+		email.sendKeys("sandeshhs6460@gmail.com");
+	}
+}
+
+
+
+email:
+------
+<input type="text" class="inputtext _55r1 _6luy" name="email" id="email" data-testid="royal_email" placeholder="Email address or phone number" autofocus="1" aria-label="Email address or phone number">
+
+-----------------------------------------------------------------------
+
+Syntax of HTML web element:
+---------------------------
+<tagname   attribute = "value">
+
+
+
+Steps to find the HTML code of the web element:
+-----------------------------------------------
+	
+method1:
+--------
+--> right click on the web element and select inspect 
+
+method2:
+--------
+--> press f12 in keyboard then select arrow mark
+--> place near the web element
+
+method3:
+--------
+cntrl+shift+c --> mouse hover on the web element
+
+-------------------------------------------------------------------------------------
+
+2. WAS to navigate to the Facebook application and type the password in the password field using "id" locator
+
+
+password:
+---------
+<input type="password" class="inputtext _55r1 _6luy _9npi" name="pass" id="pass" data-testid="royal_pass" placeholder="Password" aria-label="Password">
+
+----------------------------------------------
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+class Launch14
+{
+	public static void main(String[] args) 
+	{
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("https://www.facebook.com");
+		
+		WebElement password = driver.findElement(By.id("pass"));
+		password.sendKeys("12345678");
+	}
+}
+
+
+Assignment:
+-----------
+3. WAS to navigate to the Facebook application and type the email in the email field ,type the password in the password field using "id" locator
+
+
+----------------------------------------------------------------------------------
+
+2. name:
+--------
+	--> This locator is used to identify the web elements 
+	--> using this we can see the value attached to the name 
+	--> later we can use this to locate the web elements for selenium to perform actions
+	--> In some HTML code if id is not there then we can use name locators
+	
+WAS to navigate to the Facebook application and type the email in the email field and 
+password in password text field using name locator
+
+email:
+------
+<input type="text" class="inputtext _55r1 _6luy" name="email" id="email" data-testid="royal_email" placeholder="Email address or phone number" autofocus="1" aria-label="Email address or phone number">
+
+password:
+---------
+<input type="password" class="inputtext _55r1 _6luy _9npi" name="pass" id="pass" data-testid="royal_pass" placeholder="Password" aria-label="Password">
+
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+class Launch15
+{
+	public static void main(String[] args) 
+	{
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("https://www.facebook.com");
+		
+		WebElement email = driver.findElement(By.name("email"));
+		email.sendKeys("sandeshhs6460@gmail.com");
+		
+		WebElement password = driver.findElement(By.name("pass"));
+		password.sendKeys("12345678");
+	}
+}
+
+-------------------------------------------------------------------------------------
+NOTE:
+-----
+By 			--> Class 
+id or name  --> static method [Because its invoked by class]
+
+-------------------------------------------------------------------------------------
+
+3. class:
+---------
+	--> This locator is used to identify the web elements 
+	--> using this we can see the value attached to the class 
+	--> later we can use this to locate the web elements for selenium to perform actions
+
+WAS to navigate to the Facebook application and type the password in the password field using "class" locator
+
+email:
+------
+<input type="text" class="inputtext _55r1 _6luy" name="email" id="email" data-testid="royal_email" placeholder="Email address or phone number" autofocus="1" aria-label="Email address or phone number">
+
+
+password:
+---------
+<input type="password" class="inputtext _55r1 _6luy _9npi" name="pass" id="pass" data-testid="royal_pass" placeholder="Password" aria-label="Password">
+
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+class Launch16
+{
+	public static void main(String[] args) 
+	{
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("https://www.facebook.com");
+		
+		WebElement password = driver.findElement(By.className("inputtext"));
+		password.sendKeys("12345678");
+	}
+}
+
+NOTE:
+-----
+--> Whenever selenium identifies multiple web elements using any of the locators 
+, always the actions will be performed on the 1st web element
+--> Above is the HTML code for email and password field of the Facebook Application
+--> As we can notice the classname is same for both email and password 
+--> Selenium after executing the code 2 web elements would be identified with the same class name
+and hence the action would be performed on the 1st web element
+i.e 
+	email
+
+-------------------------------------------------------------------------------------
+
+
+5. linktext :
+-------------
+
+
+WAS to navigate to the Facebook application and click on "Forgotten password" link   using "linktext" locator
+
+<a href="https://www.facebook.com/recover/initiate/?privacy_mutation_token=eyJ0eXBlIjowLCJjcmVhdGlvbl90aW1lIjoxNjY1NTkyNjQ4LCJjYWxsc2l0ZV9pZCI6MzgxMjI5MDc5NTc1OTQ2fQ%3D%3D&amp;ars=facebook_login">Forgotten password?</a>
+
+<a href="---------"> Link Text </a>
+
+anchor tag --> Link 
+
+Link Text --> Forgotten password?
+-----------------------------------------
+
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+class Launch17
+{
+	public static void main(String[] args)
+	{
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("https://www.facebook.com");
+		
+		WebElement link = driver.findElement(By.linkText("Forgotten password?"));
+		link.click();
+	}
+}
+
+-----------------------------------------------------------------------------
+6. Partial linktext :
+---------------------
+WAS to navigate to the Facebook application and click on "Forgotten password" link   using "Partial linktext" locator
+
+html code for "Forgotten password" link
+---------------------------------------
+<a href="https://www.facebook.com/recover/initiate/?privacy_mutation_token=eyJ0eXBlIjowLCJjcmVhdGlvbl90aW1lIjoxNjU1Mzk2NzgyLCJjYWxsc2l0ZV9pZCI6MzgxMjI5MDc5NTc1OTQ2fQ%3D%3D&amp;ars=facebook_login">Forgotten password?</a>
+
+<a href="---------"> Link Text </a>
+
+anchor tag --> Link 
+
+Link Text --> Forgotten password?
+Partial linktext --> Forgotten or  password [Valid]
+						?   [Invalid]
+-------------------------------------
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+class Launch18
+{
+	public static void main(String[] args)
+	{
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("https://www.facebook.com");
+		
+		WebElement link = driver.findElement(By.partialLinkText("Forgotten"));
+		link.click();
+	}
+}
+
+--------------------------------------------------------------------------
+
+Advantages of Partial Link text over Link Text:
+-----------------------------------------------
+	--> Inorder to handle static links we can use link text method
+	--> Inorder to handle dynamic links we use partial link text method 
+
+Diagram 2
+
+-----------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+

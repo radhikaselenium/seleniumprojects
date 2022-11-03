@@ -1,0 +1,537 @@
+Program: [HDF using Excel]
+--------
+Program to fetch the no of rows in a Excel:
+-------------------------------------------
+
+package com.excelr.browserstack;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.openqa.selenium.WebDriver;
+
+public class Demo5
+{
+	public static WebDriver driver;
+	public static FileInputStream fis;
+	public static XSSFWorkbook book;
+	public static XSSFSheet sheet;
+	public static int numofRows;
+	
+	public static void main(String[] args) throws IOException 
+	{
+		fis = new FileInputStream("E:\\Excelr_Selenium_Sep7\\Hybrid Driven Excel Framework\\src\\com\\excelr\\utilities\\Hybriddriven.xlsx");
+		book = new XSSFWorkbook(fis);
+		sheet = book.getSheetAt(0);
+		
+		//To fetch the number of rows
+		numofRows = sheet.getPhysicalNumberOfRows();
+		System.out.println(numofRows);
+	}
+}
+
+o/p:
+----
+11
+
+----------------------------------------------------------------------------
+Program to fetch the cell data in a Excel:
+------------------------------------------
+
+Program:
+--------
+
+package com.excelr.browserstack;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.openqa.selenium.WebDriver;
+
+public class Demo6
+{
+	public static WebDriver driver;
+	public static FileInputStream fis;
+	public static XSSFWorkbook book;
+	public static XSSFSheet sheet;
+	public static int numofRows;
+	public static String action;
+	public static XSSFRow row;
+	public static XSSFCell cell;
+	public static String data;
+	
+	public static String getCellValues(int rownum,int cellnum)
+	{
+		row = sheet.getRow(rownum);
+		cell = row.getCell(cellnum);
+		data = cell.getStringCellValue();
+		return data;
+	}
+	public static void main(String[] args) throws IOException 
+	{
+		fis = new FileInputStream("E:\\Excelr_Selenium_Sep7\\Hybrid Driven Excel Framework\\src\\com\\excelr\\utilities\\Hybriddriven.xlsx");
+		book = new XSSFWorkbook(fis);
+		sheet = book.getSheetAt(0);
+		
+		//To fetch the number of rows
+		numofRows = sheet.getPhysicalNumberOfRows();
+		System.out.println(numofRows);
+		
+		for (int i = 1; i < numofRows; i++)
+		{
+			action = getCellValues(i,2);
+			System.out.println(action);
+		}	
+		
+	}
+}
+
+
+o/p:
+----
+11
+open
+navigate
+click
+type
+type
+click
+click
+click
+click
+quit
+
+----------------------------------------------------------------------
+
+Program:
+--------
+package com.excelr.browserstack;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.time.Duration;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Demo7
+{
+	public static WebDriver driver;
+	public static FileInputStream fis;
+	public static XSSFWorkbook book;
+	public static XSSFSheet sheet;
+	public static int numofRows;
+	public static String action;
+	public static XSSFRow row;
+	public static XSSFCell cell;
+	public static String data;
+	
+	public static String getCellValues(int rownum,int cellnum)
+	{
+		row = sheet.getRow(rownum);
+		cell = row.getCell(cellnum);
+		data = cell.getStringCellValue();
+		return data;
+	}
+	public static void main(String[] args) throws IOException 
+	{
+		fis = new FileInputStream("E:\\Excelr_Selenium_Sep7\\Hybrid Driven Excel Framework\\src\\com\\excelr\\utilities\\Hybriddriven.xlsx");
+		book = new XSSFWorkbook(fis);
+		sheet = book.getSheetAt(0);
+		
+		//To fetch the number of rows
+		numofRows = sheet.getPhysicalNumberOfRows();
+		System.out.println(numofRows);
+		
+		for (int i = 1; i < numofRows; i++)
+		{
+			action = getCellValues(i,2);
+			System.out.println(action);	
+		
+		switch(action)
+		
+		{
+		case "open":
+			driver = new ChromeDriver();
+			driver.manage().window().maximize();
+			driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+			break;
+			
+		case "navigate":
+			driver.get(getCellValues(i,4));
+			break;
+			
+		case "click":
+			driver.findElement(By.xpath(getCellValues(i,3))).click();
+			break;
+			
+		case "type":
+			driver.findElement(By.xpath(getCellValues(i,3))).sendKeys(getCellValues(i,4));
+			break;
+			
+		case "quit":
+			driver.quit();
+			break;
+		
+		}
+	  }
+			
+	}
+}
+
+------------------------------------------------------------------------------------
+4. Page Object Model  [POM]
+---------------------------
+Diagram 1
+
+Rules of POM:
+-------------
+	--> All the locators should be Instance Variables
+	--> For every action we have to write one method 
+
+Framework Structure:
+--------------------
+Page Object Model 
+	com.excelr.browserstackpages
+		--> Welcome.java
+		--> Signin.java
+		--> Account.java 
+
+	com.excelr.browserstackautomation
+		--> Demo8.java
+
+Program:
+--------
+
+Demo8.java:
+-----------
+package com.execlr.browserstackautomation;
+import java.time.Duration;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+import com.excelr.browserstackpages.Signin;
+import com.excelr.browserstackpages.Welcome;
+import com.excelr.browserstackpages.Account;
+
+public class Demo8
+{
+	public static void main(String[] args)
+	{
+	
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+		
+		driver.get("https://www.browserstack.com");
+		
+		Welcome w = new Welcome(driver);
+		w.clickOnSignIn();
+		
+		Signin s = new Signin(driver);
+		s.typeEmail("sandeshhs6460@gmail.com");
+		s.typePassword("12345678");
+		s.acceptCookie();
+		s.signMeIn();
+		
+		Account a = new Account(driver);
+		a.accounButtonHover();
+		a.signOut();
+		
+		driver.close();
+	}
+}
+
+Welcome.java:
+-------------
+package com.excelr.browserstackpages;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+
+public class Welcome 
+{
+	WebDriver driver;
+	By sign_in = By.xpath("(//a[text()='Sign in'])[1]");
+	
+	public Welcome (WebDriver driver)
+	{
+		this.driver = driver;
+	}
+	
+	public void clickOnSignIn()
+	{
+		driver.findElement(sign_in).click();
+	}
+}
+
+
+
+Signin.java:
+------------
+package com.excelr.browserstackpages;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+
+public class Signin
+{
+	WebDriver driver;
+	By email = By.xpath("//input[@id = 'user_email_login']");
+	By password = By.xpath("//input[@id = 'user_password']");
+	By accept_cookie = By.xpath("//button[@id='accept-cookie-notification']");
+	By signme_in = By.xpath("(//input[@name= 'commit'])[1]");
+	
+	public Signin (WebDriver driver)
+	{
+		this.driver = driver;
+	}
+	
+	public void typeEmail(String e)
+	{
+		driver.findElement(email).sendKeys(e);
+	}
+	public void typePassword(String p)
+	{
+		driver.findElement(password).sendKeys(p);
+	}
+	public void acceptCookie()
+	{
+		driver.findElement(accept_cookie).click();
+	}
+	public void signMeIn()
+	{
+		driver.findElement(signme_in).click();
+	}
+}
+
+
+Account.java:
+------------
+package com.excelr.browserstackpages;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.interactions.Actions;
+
+public class Account
+{
+	WebDriver driver;
+	By sign_out = By.xpath("//a[@title='Sign out' and @id ='sign_out_link']");
+	
+	public Account (WebDriver driver)
+	{
+		this.driver = driver;
+	}
+	
+	public void accounButtonHover()
+	{
+		Actions a = new Actions(driver);
+		a.moveToElement(driver.findElement(By.xpath("//button[@id='account-menu-toggle']"))).build().perform();	
+	}
+	public void signOut()
+	{
+		driver.findElement(sign_out).click();
+	}
+}
+
+--------------------------------------------------------------------------------------
+5. Page Factory Model  [PFM]
+----------------------------
+Diagram 2
+
+Rules of PFM:
+-------------
+	--> All the locators should be Instance Variables
+	--> For every action we have to write one method 
+	
+NOTE:
+-----
+	--> We have to call initElements() inside a Constructor 
+	--> we have to use @FindBy() Decorator 
+	
+Framework Structure:
+--------------------
+Page Factory Model 
+	com.excelr.browserstackpages
+		--> Welcome.java
+		--> Signin.java
+		--> Account.java 
+
+	com.excelr.browserstackautomation
+		--> Demo9.java
+
+--------------------------------------------------------------------------------------
+Demo9.java:
+-----------
+package com.execlr.browserstackautomation;
+import java.time.Duration;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+import com.excelr.browserstackpages.Signin;
+import com.excelr.browserstackpages.Welcome;
+import com.excelr.browserstackpages.Account;
+
+public class Demo9
+{
+	public static void main(String[] args)
+	{
+	
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+		
+		driver.get("https://www.browserstack.com");
+		
+		Welcome w = new Welcome(driver);
+		w.clickOnSignIn();
+		
+		Signin s = new Signin(driver);
+		s.typeEmail("sandeshhs6460@gmail.com");
+		s.typePassword("12345678");
+		s.acceptCookie();
+		s.signMeIn();
+		
+		Account a = new Account(driver);
+		a.accounButtonHover();
+		a.signOut();
+		
+		driver.close();
+	}
+}
+
+Welcome.java:
+-------------
+package com.excelr.browserstackpages;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class Welcome 
+{
+	WebDriver driver;
+	
+	@FindBy(xpath = "(//a[text()='Sign in'])[1]") 
+	WebElement	sign_in;
+	
+	public Welcome (WebDriver driver)
+	{
+		this.driver = driver;
+		PageFactory.initElements(driver, this);
+	}
+	
+	public void clickOnSignIn()
+	{
+		
+		sign_in.click();
+	}
+}
+
+
+Signin.java:
+------------
+package com.excelr.browserstackpages;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class Signin
+{
+	WebDriver driver;
+	
+	@FindBy(xpath = "//input[@id = 'user_email_login']") 
+	WebElement	email;
+	
+	@FindBy(xpath = "//input[@id = 'user_password']") 
+	WebElement	password;
+	
+	@FindBy(xpath = "//button[@id='accept-cookie-notification']") 
+	WebElement	accept_cookie;
+	
+	@FindBy(xpath = "(//input[@name= 'commit'])[1]") 
+	WebElement	signme_in;
+	
+	public Signin (WebDriver driver)
+	{
+		this.driver = driver;
+		PageFactory.initElements(driver, this);
+	}
+	
+	public void typeEmail(String e)
+	{
+		email.sendKeys(e);
+	}
+	public void typePassword(String p)
+	{
+		password.sendKeys(p);
+	}
+	public void acceptCookie()
+	{
+		accept_cookie.click();
+	}
+	public void signMeIn()
+	{
+		signme_in.click();
+	}
+}
+
+Account.java:
+-------------
+package com.excelr.browserstackpages;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class Account
+{
+	WebDriver driver;
+	
+	@FindBy(xpath = "//a[@title='Sign out' and @id ='sign_out_link']")
+	WebElement	sign_out;
+	
+	public Account (WebDriver driver)
+	{
+		this.driver = driver;
+		PageFactory.initElements(driver, this);
+	}
+	
+	public void accounButtonHover()
+	{
+		Actions a = new Actions(driver);
+		a.moveToElement(driver.findElement(By.xpath("//button[@id='account-menu-toggle']"))).build().perform();
+		
+	}
+	public void signOut()
+	{
+		sign_out.click();
+	}
+}
+
+----------------------------------------------------------------------------------------
+
+
+
+
+
+
+

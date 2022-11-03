@@ -1,0 +1,125 @@
+Automation Testing:
+-------------------
+
+The S/w or application can be tested using 2 ways
+	1. Manual Testing
+	2. Automation Testing 
+	
+1. Manual Testing:
+------------------
+	It is the process where the manual test engineer will provide the i/p manually to the s/w or application and checks the o/p manually.
+
+2. Automation Testing:
+----------------------
+Diagram 1
+
+	Automation Testing is the process where Automation Test Engineer will write the 
+Test code / Test Script inside Test Tool, Where the Test tool will execute the
+test code/ test scripts on s/w under test to obtain the result
+
+Diagram 2
+
+Difference b/w Manual Testing & Automation Testing:
+---------------------------------------------------
+Diagram 3
+
+
+When to go for Manual Testing & Automation Testing:
+---------------------------------------------------
+Diagram 4
+
+--------------------------------------------------------------------
+
+Selenium:
+---------
+	Selenium is a freely downloadable and an open source s/w[Automation Testing Tool] which is used to test the s/w under test.
+
+Application 
+-----------
+1. Mobile Application
+2. Desktop Application [Standalone Application]
+3. Web Application
+
+--> Selenium to test "Web Application"
+
+Web Application:
+----------------
+	--> Any application which requires web to execute.
+------------------------------------------------------------------------
+
+History of Selenium:
+--------------------
+	Jason Huggins -- [Thought works]
+	2004
+	Selenium -- [Selenium Core, Selenium RC, Selenium IDE]  -- JavaScript
+	
+	Simon -- [Google]
+	2009
+	Selenium -- [Selenium Web Driver]  Java/Python...
+	
+------------------------------------------------------------------------
+NOTE:
+------
+	--> Selenium is not a single tool rather its a collection of tools [suit of tools]
+------------------------------------------------------------------------
+
+Diagram 5
+
+------------------------------------------------------------------------
+Why Selenium?
+
+1. It supports multiple Programming language.
+	i.e Java , Python , JavaScript,...
+2. Selenium is a freely downloadable and an open source s/w
+3. Selenium supports multiple browsers
+	i.e Google Chrome, IE, Firefox, Opera Mini, Safari,.....
+4. Selenium supports multiple OS 
+	i.e Windows, Unix, MAC ,....
+5. Selenium is easy to learn and implement
+6. Using Selenium Parallel test execution is possible
+7. Regular updates will be given 
+
+------------------------------------------------------------------------	
+NOTE:
+-----
+	--> Selenium RC and Selenium web driver combined together called as "Selenium 2.0"
+-------------------------------------------------------------------------------
+Selenium Web Driver:
+--------------------
+
+Software's required to work with Selenium Web Driver:
+-----------------------------------------------------
+JAVA --> JDK 1.8
+IDE[Integrated Development Environment]  --> Eclipse --> https://www.eclipse.org/downloads/
+
+Selenium Jars 
+Driver s/w [chromedriver, geckodriver, IEDriverServer]
+
+How to install Eclipse?
+	https://www.eclipse.org/downloads/
+
+How to Download Selenium Jars and Driver s/w's?
+	www.seleniumhq.org
+	https://www.selenium.dev/downloads/
+
+------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

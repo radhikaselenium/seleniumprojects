@@ -1,0 +1,486 @@
+Framework:
+----------
+	It is a set of rules or guidelines to be followed during the automation process in order to achieve efficiency
+
+Java - Spring
+Python - Django 
+
+--> Framework consists of mainly 3 phases 
+		1. Framework Design 
+		2. Framework Implementation
+		3. Framework Execution
+		
+1. Framework Design :
+---------------------
+	Irrespective of the Automation tool the Automation TE can follow any of the following designs
+		1. Data Driven Framework [DDF]
+		2. Keyword Driven Framework [KDF]
+		3. Hybrid Driven Framework [HDF]
+		4. Page Object Model  [POM]
+		5. Page Factory Model  [PFM]
+		6. TestNG Framework [Test Next Generation Framework]
+		
+		
+1. Data Driven Framework [DDF]:
+-------------------------------
+Scenario to be automated:
+-------------------------
+Open the Chrome/FireFox Browser 
+Navigate to https://www.browserstack.com website
+Click on Sign in button 
+Enter the email [sandeshhs6460@gmail.com]
+Enter the password [12345678]
+Click on Login button 
+Wait for 5 seconds
+Click on Sign out button
+close the browser
+----------------------------------------------------
+Framework Design : Data Driven Framework[DDF]	
+
+Framework Implementation:
+	In this phase the manual Test cases would be converted to Automation Test Case or Test Code 
+
+TCID : TC0001
+
+PreRequisite / PreRequirement : FireFox/Chrome Browser should be installed and the credentials should be valid 
+
+Procedure: 
+	1. Open the browser, navigate to https://www.browserstack.com website
+	2. click on Signin  button and enter the username and password.
+	3. After entering the credentials click on Signin Up Button
+	4. Provide 5 Seconds
+	5. Click on Signout button.
+	6. Close the browser
+	
+Expected o/p : 
+	User should be able to login into https://www.browserstack.com website and logout successfully 
+	
+------------------------------------------------------
+Diagram 1
+
+program: [Non Data Driven Framework Approach]
+--------	
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+
+public class Demo1 
+{
+	public static void main(String[] args) throws InterruptedException
+	{
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("https://www.browserstack.com");
+		WebElement sign_in = driver.findElement(By.linkText("Sign in"));
+		sign_in.click();
+		WebElement un = driver.findElement(By.id("user_email_login"));
+		WebElement pwd = driver.findElement(By.id("user_password"));
+		un.sendKeys("sandeshhs6460@gmail.com");
+		pwd.sendKeys("12345678");
+		WebElement accept = driver.findElement(By.xpath("//button[@id='accept-cookie-notification']"));
+		accept.click();
+		WebElement login = driver.findElement(By.name("commit"));
+		login.click();
+		Thread.sleep(5000);
+		WebElement b = driver.findElement(By.xpath("//button[@id='account-menu-toggle']"));
+		Actions a = new Actions(driver);
+		a.moveToElement(b).build().perform();
+		WebElement logout = driver.findElement(By.xpath("//a[@title='Sign out' and @id ='sign_out_link']"));
+		logout.click();
+		driver.close();
+	}			
+}	
+	
+----------------------------------------------------------------------------		
+Diagram 2
+
+Framework Structure:
+--------------------
+Data Driven Framework
+	--> com.excelr.browserstack
+			--> Demo2.java
+	--> com.excelr.utilities
+			--> datadriven.properties
+		
+program: [Data Driven Framework Approach]
+--------	
+package com.excelr.browserstack;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+
+public class Demo2
+{
+	public static void main(String[] args) throws InterruptedException, IOException
+	{
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		
+		// Establishing the Connection from Property File to Java File
+		FileInputStream fis = new FileInputStream("E:\\Excelr_Selenium_Sep7\\Data Driven Framework\\src\\com\\excelr\\utilities\\datadriven.properties");
+		
+		// Creation of Properties object to load the data
+		Properties p = new Properties();
+		p.load(fis);
+		
+		//Fetching the data from a Property File
+		String url_data = p.getProperty("url");
+		String email_id_data = p.getProperty("email");
+		String pwd_data = p.getProperty("password");
+				
+		System.out.println(url_data);
+		System.out.println(email_id_data);
+		System.out.println(pwd_data);
+		
+		driver.get(url_data);
+		driver.findElement(By.linkText("Sign in")).click();
+		driver.findElement(By.id("user_email_login")).sendKeys(email_id_data);
+		driver.findElement(By.id("user_password")).sendKeys(pwd_data);
+		Thread.sleep(5000);
+		driver.findElement(By.xpath("//button[@id='accept-cookie-notification']")).click();
+		driver.findElement(By.name("commit")).click();
+		Thread.sleep(5000);
+		WebElement b = driver.findElement(By.xpath("//button[@id='account-menu-toggle']"));
+		Actions a = new Actions(driver);
+		a.moveToElement(b).build().perform();
+		driver.findElement(By.xpath("//a[@title='Sign out' and @id ='sign_out_link']")).click();
+		driver.close();
+	}			
+}
+
+
+o/p:
+----
+https://www.browserstack.com
+sandeshhs6460@gmail.com
+12345678
+
+
+datadriven.properties:
+----------------------
+url = https://www.browserstack.com
+
+email = sandeshhs6460@gmail.com
+
+password = 12345678
+
+--------------------------------------------------------------------------------------
+2. Keyword Driven Framework [KDF]
+---------------------------------
+
+Diagram 3
+
+Framework Structure:
+--------------------
+Keyword Driven Framework
+	--> com.excelr.browserstack
+			--> Demo3.java
+	--> com.excelr.utilities
+			--> keyworddriven.properties
+		
+
+Program:
+--------
+package com.excelr.browserstack;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+
+public class Demo3
+{
+	public static void main(String[] args) throws InterruptedException, IOException
+	{
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		
+		// Establishing the Connection from Property File to Java File
+		FileInputStream fis = new FileInputStream("E:\\Excelr_Selenium_Sep7\\Keyword Driven Framework\\src\\com\\excelr\\utilities\\keyworddriven.properties");
+		
+		// Creation of Properties object to load the data
+		Properties p = new Properties();
+		p.load(fis);
+		
+		//Fetching the data from a Property File
+		String signin_x_data = p.getProperty("signin");
+		String email_x_data = p.getProperty("email");
+		String password_x_data = p.getProperty("password");
+		String cookie_x_data = p.getProperty("cookie");
+		String signmein_x_data = p.getProperty("signmein");
+		String menu_x_data = p.getProperty("menu");
+		String logout_x_data = p.getProperty("logout");
+				
+		System.out.println(signin_x_data);
+		System.out.println(email_x_data);
+		System.out.println(password_x_data);
+		System.out.println(cookie_x_data);
+		System.out.println(signmein_x_data);
+		System.out.println(menu_x_data);
+		System.out.println(logout_x_data);
+		
+		driver.get("https://www.browserstack.com");
+		driver.findElement(By.xpath(signin_x_data)).click();
+		driver.findElement(By.xpath(email_x_data)).sendKeys("sandeshhs6460@gmail.com");
+		driver.findElement(By.xpath(password_x_data)).sendKeys("12345678");
+		Thread.sleep(5000);
+		driver.findElement(By.xpath(cookie_x_data)).click();
+		driver.findElement(By.xpath(signmein_x_data)).click();
+		Thread.sleep(5000);
+		WebElement b = driver.findElement(By.xpath(menu_x_data));
+		Actions a = new Actions(driver);
+		a.moveToElement(b).build().perform();
+		driver.findElement(By.xpath(logout_x_data)).click();
+		driver.close();
+	}			
+}
+
+o/p:
+----
+(//a[text()='Sign in'])[1]
+//input[@id = 'user_email_login']
+//input[@id = 'user_password']
+//button[@id='accept-cookie-notification']
+(//input[@name= 'commit'])[1]
+//button[@id='account-menu-toggle']
+//a[@title='Sign out' and @id ='sign_out_link']
+
+keyworddriven.properties
+------------------------
+signin = (//a[text()='Sign in'])[1]
+
+email = //input[@id = 'user_email_login']
+
+password = //input[@id = 'user_password']
+
+cookie = //button[@id='accept-cookie-notification']
+
+signmein = (//input[@name= 'commit'])[1]
+
+menu = //button[@id='account-menu-toggle']
+
+logout = //a[@title='Sign out' and @id ='sign_out_link']
+
+-----------------------------------------------------------------------------
+3. Hybrid Driven Framework [HDF]:
+---------------------------------
+Diagram 4
+
+Framework Structure:
+--------------------
+Hybrid Driven Framework
+	--> com.excelr.browserstack
+			--> Demo4.java
+	--> com.excelr.utilities
+			--> hybriddriven.properties
+	
+
+Program:
+--------
+package com.excelr.browserstack;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+
+public class Demo4
+{
+	public static void main(String[] args) throws InterruptedException, IOException
+	{
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		
+		// Establishing the Connection from Property File to Java File
+		FileInputStream fis = new FileInputStream("E:\\Excelr_Selenium_Sep7\\Hybrid Driven Framework\\src\\com\\excelr\\utilities\\hybriddriven.properties");
+		
+		// Creation of Properties object to load the data
+		Properties p = new Properties();
+		p.load(fis);
+		
+		//Fetching the data , Keyword & Locators from a Property File
+		
+		String url_data = p.getProperty("url");
+		String email_id_data = p.getProperty("email");
+		String pwd_data = p.getProperty("password");
+		
+		String signin_x_data = p.getProperty("signin");
+		String email_x_data = p.getProperty("email_xpath");
+		String password_x_data = p.getProperty("password_xpath");
+		String cookie_x_data = p.getProperty("cookie");
+		String signmein_x_data = p.getProperty("signmein");
+		String menu_x_data = p.getProperty("menu");
+		String logout_x_data = p.getProperty("logout");
+			
+		System.out.println(url_data);
+		System.out.println(email_id_data);
+		System.out.println(pwd_data);
+		System.out.println(signin_x_data);
+		System.out.println(email_x_data);
+		System.out.println(password_x_data);
+		System.out.println(cookie_x_data);
+		System.out.println(signmein_x_data);
+		System.out.println(menu_x_data);
+		System.out.println(logout_x_data);
+				
+		driver.get(url_data);
+		driver.findElement(By.xpath(signin_x_data)).click();
+		driver.findElement(By.xpath(email_x_data)).sendKeys(email_id_data);
+		driver.findElement(By.xpath(password_x_data)).sendKeys(pwd_data);
+		Thread.sleep(5000);
+		driver.findElement(By.xpath(cookie_x_data)).click();
+		driver.findElement(By.xpath(signmein_x_data)).click();
+		Thread.sleep(5000);
+		WebElement b = driver.findElement(By.xpath(menu_x_data));
+		Actions a = new Actions(driver);
+		a.moveToElement(b).build().perform();
+		driver.findElement(By.xpath(logout_x_data)).click();
+		driver.close();
+	}			
+}
+
+o/p:
+----
+https://www.browserstack.com
+sandeshhs6460@gmail.com
+12345678
+(//a[text()='Sign in'])[1]
+//input[@id = 'user_email_login']
+//input[@id = 'user_password']
+//button[@id='accept-cookie-notification']
+(//input[@name= 'commit'])[1]
+//button[@id='account-menu-toggle']
+//a[@title='Sign out' and @id ='sign_out_link']
+
+hybriddriven.properties:
+------------------------
+url = https://www.browserstack.com
+
+email = sandeshhs6460@gmail.com
+
+password = 12345678
+
+signin = (//a[text()='Sign in'])[1]
+
+email_xpath = //input[@id = 'user_email_login']
+
+password_xpath = //input[@id = 'user_password']
+
+cookie = //button[@id='accept-cookie-notification']
+
+signmein = (//input[@name= 'commit'])[1]
+
+menu = //button[@id='account-menu-toggle']
+
+logout = //a[@title='Sign out' and @id ='sign_out_link']
+
+------------------------------------------------------------------------------------------
+
+Steps involved in configuration of HDF:
+---------------------------------------
+1. Create a New Java Project - Hybrid Driven Framework
+2. Once the project is created , add the selenium jars as well as driver s/w's that are required 
+3. In the newly created Project , create 2 Packages 
+	--> com.companyname(excelr).applicationname(browserstack) -- to store test code [Java File - Demo4.java]
+	--> com.companyname(excelr).utilities  -- to store property file[hybriddriven.properties]
+4. Right click on com.excelr.browserstack package and create a new Java Class File -- Demo4.java
+5. Right click on com.excelr.utilities package and create a new Property File -- hybriddriven.properties
+6. In order to create a Property file right click from package, go to new and select file option 
+7. save the file with .properties extension
+		
+------------------------------------------------------------------------------------------	
+
+Hybrid Driven Framework [HDF] using Excel:
+------------------------------------------
+
+
+Framework Structure:
+--------------------
+Hybrid Driven Excel Framework
+	--> com.excelr.browserstack
+			--> Demo5.java
+	--> com.excelr.utilities
+			--> Hybriddriven.xlsx
+
+Diagram 5 - Hybriddriven.xlsx [Rows & Column]
+
+
+Diagram 6
+
+Diagram 7
+
+
+Steps involved in downloading poi jars:
+---------------------------------------
+1. Open any browser
+2. search for apache poi
+3. Click on Download link 
+4. Scroll down to the end of download page and click on Binary Artifacts 
+5. Download poi-bin-5.2.3-20220909.zip  
+6. extract the zip and place inside selenium components
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+		
+		
+		

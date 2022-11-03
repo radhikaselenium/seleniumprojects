@@ -1,0 +1,557 @@
+Various attributes associated with Test Annotations:
+----------------------------------------------------
+1. dependsOnMethods
+2. Assert
+3. alwaysRun 
+4. enabled 
+5. invocationCount
+
+
+1. dependsOnMethods:
+--------------------
+	Whenever we have to make one test case/test Method dependent on another test case then we should be using dependsOnMethods
+
+Syntax:
+-------
+@Test(dependsOnMethods = "methodname")
+
+Program:
+--------
+package com.execlr.browserstack;
+
+import org.testng.annotations.Test;
+
+public class TestNG25
+{
+	@Test
+	public void login()
+	{
+		System.out.println("Login successfull");
+	}
+	
+	@Test(dependsOnMethods = "login")
+	public void logout()
+	{
+		System.out.println("Logout successfull");
+	}
+}
+
+o/p:
+----
+Login successfull
+Logout successfull
+PASSED: login
+PASSED: logout
+
+-------------------------------------------------------------------------------------------
+2. Assert:
+----------
+
+
+NOTE:
+------
+	--> Inorder to fail the Test Case there are 2 ways
+			1. Assert.fail()
+			2. Assert.assertEquals()
+			
+Program:
+--------
+package com.execlr.browserstack;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class TestNG26
+{
+	@Test
+	public void login()
+	{
+		Assert.fail();
+		System.out.println("Login successfull");
+	}
+	
+	@Test(dependsOnMethods = "login")
+	public void logout()
+	{
+		System.out.println("Logout successfull");
+	}
+}
+
+			
+o/p:
+----
+
+FAILED: login
+
+SKIPPED: logout			
+	
+===============================================
+    Default test
+    Tests run: 2, Failures: 1, Skips: 1
+===============================================
+
+
+===============================================
+Default suite
+Total tests run: 2, Passes: 0, Failures: 1, Skips: 1
+===============================================
+---------------------------------------------------------------------------------------
+
+Program:
+--------
+package com.execlr.browserstack;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class TestNG27
+{
+	@Test
+	public void login()
+	{
+		Assert.assertEquals(true, false);
+		System.out.println("Login successfull");
+	}
+	
+	@Test(dependsOnMethods = "login")
+	public void logout()
+	{
+		System.out.println("Logout successfull");
+	}
+}
+
+
+o/p:
+----
+
+FAILED: login
+
+SKIPPED: logout			
+	
+===============================================
+    Default test
+    Tests run: 2, Failures: 1, Skips: 1
+===============================================
+
+===============================================
+Default suite
+Total tests run: 2, Passes: 0, Failures: 1, Skips: 1
+===============================================
+
+---------------------------------------------------------------------------------------
+
+3. alwaysRun:
+-------------
+	Whenever we want to execute a test case irrespective of whether the dependent test case is executed or not else if it is pass or fail, then we should go for alwaysRun
+
+
+Program:
+--------
+package com.execlr.browserstack;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class TestNG28
+{
+	@Test
+	public void login()
+	{
+		Assert.assertEquals(true, false);
+		System.out.println("Login successfull");
+	}
+	
+	@Test (dependsOnMethods = "login", alwaysRun = true)
+	public void logout()
+	{
+		System.out.println("Logout successfull");
+	}
+	
+}
+
+o/p:
+----
+Logout successfull
+PASSED: logout
+FAILED: login
+
+===============================================
+    Default test
+    Tests run: 2, Failures: 1, Skips: 0
+===============================================
+
+
+===============================================
+Default suite
+Total tests run: 2, Passes: 1, Failures: 1, Skips: 0
+===============================================
+
+---------------------------------------------------------------------------------------
+
+4. enabled:
+-----------
+	Whenever we have to hide a test case then we have to specify enabled = false, by default it would be true
+
+Program:
+--------
+package com.execlr.browserstack;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class TestNG29
+{
+	@Test
+	public void login()
+	{
+		System.out.println("Login successfull");
+	}
+	
+	@Test(dependsOnMethods = "login")
+	public void logout()
+	{
+		System.out.println("Logout successfull");
+	}
+	
+	@Test(enabled = false)
+	public void inbox()
+	{
+		System.out.println("inbox opened successfull");
+	}
+}
+
+
+o/p:
+----
+Login successfull
+Logout successfull
+PASSED: login
+PASSED: logout
+===============================================
+    Default test
+    Tests run: 2, Failures: 0, Skips: 0
+===============================================
+===============================================
+Default suite
+Total tests run: 2, Failures: 0, Skips: 0
+===============================================
+---------------------------------------------------------------------------------------
+
+5. invocationCount:
+-------------------
+	--> Whenever we want to call the methods multiple times then we should go for 
+invocationCount
+	--> While executing the priority will not be given to the method which has invocationCount
+rather a/c to alphabetical order[ASCII values] it would be executed
+	
+Program:
+--------
+package com.execlr.browserstack;
+
+import org.testng.annotations.Test;
+
+public class TestNG30 
+{
+	@Test
+	public void login()
+	{
+		System.out.println("Login successfull");
+	}
+	
+	@Test(dependsOnMethods = "login")
+	public void logout()
+	{
+		System.out.println("Logout successfull");
+	}
+	
+	@Test(invocationCount = 5)
+	public void inbox()
+	{
+		System.out.println("inbox opened successfull");
+	}
+}
+
+
+o/p:
+----
+inbox opened successfull
+inbox opened successfull
+inbox opened successfull
+inbox opened successfull
+inbox opened successfull
+Login successfull
+Logout successfull
+			
+---------------------------------------------------------------------------------------
+Parametrization:
+----------------
+	--> In case of parametrization the data would be stored in the XML file 
+	--> From the XML file , we should fetch the data and we should use it in the 
+Test Code 
+	--> The parameters can be specified within the test level . If the parameters are specified within the test level , then that parameters are available only for the particular test 
+	--> If the parameters has to be made available for all the test , then we have to place the parameters at the suite level 
+
+
+Program:
+--------
+
+TestNG31.java:
+--------------
+package com.execlr.browserstack;
+
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+
+public class TestNG31 
+{
+	@Test
+	@Parameters({"url","email_id","pwd"})
+	public void positiveCredentialsBrowserStack1(String url, String email_id, String pwd)
+	{
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get(url);
+		driver.findElement(By.xpath("(//a[@title='Sign In'])[1]")).click();
+		driver.findElement(By.xpath("//input[@id='user_email_login']")).sendKeys(email_id);
+		driver.findElement(By.xpath("//input[@id='user_password']")).sendKeys(pwd);
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+		driver.findElement(By.xpath("//button[@id='accept-cookie-notification']")).click();
+		driver.findElement(By.xpath("(//input[@type='submit'])[1]")).click();
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+		WebElement b = driver.findElement(By.xpath("//button[@id='account-menu-toggle']"));
+		Actions a = new Actions(driver);
+		a.moveToElement(b).build().perform();
+		driver.findElement(By.xpath("//a[@title='Sign out' and @id ='sign_out_link']")).click();
+		driver.close();
+	}
+}
+
+
+TestNG31.xml:
+-------------
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Suite">
+
+	<parameter name="url" value="https://www.browserstack.com"></parameter>
+ 	<parameter name="email_id" value="sandeshhs6460@gmail.com"></parameter>
+ 	<parameter name="pwd" value="12345678"></parameter>
+
+  <test thread-count="5" name="Test">
+    <classes>
+      <class name="com.execlr.browserstack.TestNG31"/>
+    </classes>
+  </test> <!-- Test -->
+</suite> <!-- Suite -->
+
+
+---------------------------------------------------------------------------------------
+Cross Browser Testing:
+----------------------
+	Cross Browser testing is a type of non-functional testing that lets you check whether your website works as intended when accessed through different Browsers like  Firefox, Chrome, Edge, Safari...
+			
+Program:
+--------
+
+TestNG32.java:
+--------------
+package com.execlr.browserstack;
+
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+
+public class TestNG32
+{
+	WebDriver driver;
+	
+	@Parameters("browser")
+	@BeforeMethod(alwaysRun = true)
+	public void chooseBrowser(String browser)
+	{
+		if (browser.equalsIgnoreCase("chrome"))
+		{
+			driver = new ChromeDriver();
+		}
+		else if (browser.equalsIgnoreCase("firefox"))
+		{
+			driver = new FirefoxDriver();
+		}
+	}	
+	
+	@Test
+	public void positiveCredentialsBrowserStack1()
+	{
+		
+		driver.manage().window().maximize();
+		driver.get("https://www.browserstack.com");
+		driver.findElement(By.xpath("(//a[@title='Sign In'])[1]")).click();
+		driver.findElement(By.xpath("//input[@id='user_email_login']")).sendKeys("sandeshhs6460@gmail.com");
+		driver.findElement(By.xpath("//input[@id='user_password']")).sendKeys("12345678");
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+		driver.findElement(By.xpath("//button[@id='accept-cookie-notification']")).click();
+		driver.findElement(By.xpath("(//input[@type='submit'])[1]")).click();
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+		WebElement b = driver.findElement(By.xpath("//button[@id='account-menu-toggle']"));
+		Actions a = new Actions(driver);
+		a.moveToElement(b).build().perform();
+		driver.findElement(By.xpath("//a[@title='Sign out' and @id ='sign_out_link']")).click();
+		driver.close();
+	}				
+}
+
+TestNG32.xml:
+-------------
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Suite">
+
+   <test thread-count="5" name="chrome">
+  		<parameter name="browser" value="chrome"></parameter>
+    <classes>
+      <class name="com.execlr.browserstack.TestNG32"/>
+    </classes>
+    </test>
+    
+    <test thread-count="5" name="firefox">
+  		<parameter name="browser" value="firefox"></parameter>
+    <classes>
+      <class name="com.execlr.browserstack.TestNG32"/>
+    </classes>
+    </test>
+
+</suite> <!-- Suite -->
+---------------------------------------------------------------------------------------
+
+Data Providers:
+---------------
+	Inorder to send the data using data providers we have to use arrays
+	
+
+Program:
+--------
+TestNG33.java:
+--------------
+package com.execlr.browserstack;
+
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
+public class TestNG33 
+{
+	@DataProvider(name = "authentication")
+	public Object[][] dataProviders()
+	{
+	Object[][] obj = new Object[2][2];
+	
+	obj[0][0] = "sandeshhs6460@gmail.com";
+	obj[0][1] = "12345678";
+	
+	obj[1][0] = "shalinihs85@gmail.com";
+	obj[1][1] = "shalini080685";
+	
+	return obj;
+	}
+	
+	@Test(dataProvider = "authentication")
+	public void positiveCredentialsBrowserStack1(String email_id, String pwd)
+	{
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("https://www.browserstack.com");
+		driver.findElement(By.xpath("(//a[@title='Sign In'])[1]")).click();
+		driver.findElement(By.xpath("//input[@id='user_email_login']")).sendKeys(email_id);
+		driver.findElement(By.xpath("//input[@id='user_password']")).sendKeys(pwd);
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+		driver.findElement(By.xpath("//button[@id='accept-cookie-notification']")).click();
+		driver.findElement(By.xpath("(//input[@type='submit'])[1]")).click();
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+		WebElement b = driver.findElement(By.xpath("//button[@id='account-menu-toggle']"));
+		Actions a = new Actions(driver);
+		a.moveToElement(b).build().perform();
+		driver.findElement(By.xpath("//a[@title='Sign out' and @id ='sign_out_link']")).click();
+		driver.close();
+	}			
+}
+
+------------------------------------------------------------------------------------------
+
+Project:
+--------
+1. Automate Flipkart Application by placing an order
+	
+	--> Open any browser [Chrome/Firefox]
+	--> Navigate to https://www.flipkart.com/
+	--> Click on Login button
+	--> Enter the email/phone number & Password, again click on login button
+	--> under serach option enter the product[pendrive]
+	--> Select the product[HP 64 GB pendrive]
+	--> Under Product page , select "Add to Cart"
+	--> Click on "Place Order"
+	--> Under address section , click on "Deliver Here"
+	--> Click on "Continue"
+	--> Select "Cash on Delivery" option
+	--> Provide 10 Second Delay
+	--> Read the Number captcha and enter the number under text box [Manual Process]
+	--> Click on "Confirm Order"
+
+	Cancelling the order
+	
+	--> Click on "Cancel Button"
+	--> under a pop window select "Cancel Order"
+	--> Under Reason for Cancellation select any of the suitable dropdown [I have changed my mind]
+	--> under comment section enter a suitable comment [Not interested]
+	--> Click on continue button
+	--> Under Refund Modes select 2nd radio button i.e "No valid refund"
+	--> Click on "Request Cancellation" button
+	--> Hover the mouse on account icon, select logout option 
+
+Assignment:
+-----------
+2. Automate Amazon Application by placing an order
+
+3. Automate Myntra Application by placing an order
+	
+4. Automate Zomato Application by placing an order	[Your Fav Food]
+------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

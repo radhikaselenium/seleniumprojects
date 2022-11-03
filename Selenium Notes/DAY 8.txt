@@ -1,0 +1,270 @@
+Mouse and Keyboard Events:
+--------------------------
+
+Mouse Events:
+-------------
+
+Scenario to be Automated:
+-------------------------
+1. Open any browser
+2. Navigate to amazon.in website 
+3. Move to All Category Section
+4. Move to Echo and Alexa
+5. Under Echo and Alexa , click on "All-new Echo Dot(4th Gen)"
+
+Move to All Category
+--------------------
+//a[@id = 'nav-hamburger-menu']
+
+WebElement all = driver.findElement(By.xpath("//a[@id='nav-hamburger-menu']"));
+all.click();
+
+Move to Echo and Alexa
+----------------------
+//div[contains(text(),'Echo & Alexa')]
+
+WebElement e_a =  driver.findElement(By.xpath("//div[contains(text(),'Echo & Alexa')]"));
+
+
+All-new Echo Dot(4th Gen)
+-------------------------
+//a[contains(text(),'All-new Echo Dot (4th Gen)')]
+
+WebElement all_e_a =  driver.findElement(By.xpath("//a[contains(text(),'All-new Echo Dot (4th Gen)')]"));
+
+
+Program:
+--------
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+
+public class Launch37 
+{
+	public static void main(String[] args) throws InterruptedException
+	{
+		String url = "https://www.amazon.in/";
+		WebDriver driver = new ChromeDriver();
+		driver.get(url);
+		Thread.sleep(3000);
+		
+		WebElement all = driver.findElement(By.xpath("//a[@id='nav-hamburger-menu']"));
+		all.click();
+		
+		WebElement e_a = driver.findElement(By.xpath("//div[contains(text(),'Echo & Alexa')]"));
+		WebElement all_e_a = driver.findElement(By.xpath("//a[contains(text(),'All-new Echo Dot (4th Gen)')]"));
+
+		Actions a = new Actions(driver);
+		
+		a.moveToElement(e_a).click().build().perform();
+		Thread.sleep(5000);
+		
+		a.moveToElement(all_e_a).click().build().perform();
+		Thread.sleep(5000);
+		
+		driver.close();
+	}
+		
+}
+
+----------------------------------------------------------------------------
+Scenario to be automated: [Important]
+------------------------
+1. Open any Browser 
+2. Navigate to www.myntra.com 
+3. Hover the mouse on "Men" category using Mouse Events
+4. Select Sweatshirts Option and Click on it 
+
+
+Men category
+------------
+(//a[text() = 'Men'])[1]
+
+Select div tag --> :hov [enable hover]
+
+Sweatshirts Option
+------------------
+(//a[text() = 'Sweatshirts'])[1]
+
+Program:
+--------
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+
+public class Launch38
+{
+	public static void main(String[] args) throws InterruptedException
+	{
+		String url = "https://www.myntra.com/";
+		WebDriver driver = new ChromeDriver();
+		driver.get(url);
+		Thread.sleep(3000);
+		
+		WebElement men = driver.findElement(By.xpath("(//a[(text() = 'Men')])[1]"));
+		WebElement Sweatshirts = driver.findElement(By.xpath("(//a[contains(text(),'Sweatshirts')])[1]"));
+		
+		Actions a = new Actions(driver);
+		
+		a.moveToElement(men).build().perform();
+		Thread.sleep(5000);
+		
+		a.moveToElement(Sweatshirts).click().build().perform();
+		Thread.sleep(5000);
+		
+		driver.close();
+	}
+		
+}
+
+-----------------------------------------------------------------------
+The above program can be efficiently written using following approach
+
+Program:
+--------
+package autosel;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+
+public class Launch39
+{
+	public static void main(String[] args) throws InterruptedException
+	{
+		String url = "https://www.myntra.com/";
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get(url);
+		Thread.sleep(3000);
+		WebElement men = driver.findElement(By.xpath("(//a[(text() = 'Men')])[1]"));
+		WebElement Sweatshirts = driver.findElement(By.xpath("(//a[contains(text(),'Sweatshirts')])[1]"));
+		
+		Actions a = new Actions(driver);
+		a.moveToElement(men).pause(5000).moveToElement(Sweatshirts).click().build().perform();
+		Thread.sleep(3000);
+		driver.close();
+		}
+}
+
+NOTE:
+-----
+	--> In order to handle mouse events in Selenium we have to create the object for Actions class 
+	--> In order to perform any actions using Actions class, we have to use moveToElement()
+	--> build().perform() will be used at the end after every actions 
+	--> pause() is used to have some delay and perform hover operation
+
+-----------------------------------------------------------------------
+Assignment:
+-----------
+
+Scenario to be Automated:
+-------------------------
+1. Open any Browser 
+2. Navigate to www.clearTrip.com 
+3. Select "Round Trip"
+4. Click on No of Person Section then Select 4 Adults, 2 Children , 2 Infants. Finally select Business Class
+5. Enter From & To data [Bangalore to Bangkok] 
+6. Close the Browser
+
+-----------------------------------------------------------------------
+Navigation Commands:
+--------------------
+	1. to()
+	2. back()
+	3. refresh()
+	4. forward()
+	
+Scenario to be automated:
+-------------------------
+Open the Chrome Browser 
+Navigate to https://www.browserstack.com  website
+Click on Sign in  button 
+Give 5 sec delay
+Click on Backward icon in the browser 
+Give 5 sec delay
+Click on Refresh icon in the browser 
+Give 5 sec delay
+Click on Forward icon in the browser 
+Give 5 sec delay
+Close the browser
+	
+Program:
+--------
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Launch40
+{
+	public static void main(String[] args) throws InterruptedException
+	{
+		WebDriver driver = new ChromeDriver();
+		
+		driver.get("https://www.browserstack.com");
+		driver.findElement(By.xpath("(//a[@title='Sign In'])[1]")).click();
+		Thread.sleep(5000);
+		driver.navigate().back();
+		Thread.sleep(5000);
+		driver.navigate().refresh(); 
+		Thread.sleep(5000);
+		driver.navigate().forward(); 
+		Thread.sleep(5000);
+		driver.close();
+	}	
+				
+}
+	
+	
+--------------------------------------------------------------------------------------------------	
+
+Assignments:
+------------
+Scenario to be automated:
+-------------------------
+Open the Chrome Browser 
+Navigate to amazon website
+Click on Sign in button 
+Enter the email / ph no
+Enter the password 
+Click on Login button 
+Wait for 10 seconds
+Click on logout button
+close the browser
+-----------------------------------------------------
+Scenario to be automated:
+-------------------------
+Open the Chrome Browser 
+Navigate to udemy website
+Click on Sign in button 
+Enter the email 
+Enter the password 
+Click on Login button 
+Wait for 5 seconds
+Click on Sign out button
+close the browser
+-----------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

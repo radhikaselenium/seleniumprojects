@@ -1,0 +1,436 @@
+Xpath using text():
+-------------------
+
+Syntax of text():
+-----------------
+//Tagname[text() = 'Value']
+
+Diagram 1
+
+table1.html:
+-----------
+<html>
+<body>
+	<table border="1">
+		<tbody>
+			<tr>
+				<td>Manual Testing</td>
+				<td>5000</td>	
+			</tr>
+			<tr>
+				<td>Selenium</td>
+				<td>8000</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>
+
+
+Diagram 2 - Tree Structure
+
+NOTE:
+-----
+	--> Using the traditional approach for writing R-xpath is little complex , so inorder to 
+identify the web elements we can use text()
+
+
+Normal R-Xpath Approach:
+------------------------
+Manual Testing  - //tr[1]//td[1]
+Selenium 		- //tr[2]//td[1]
+---------------------------------------------------------------
+
+Identifying the xpath using text():
+-----------------------------------
+Manual Testing  --> //td[text() = 'Manual Testing']
+5000			--> //td[text() = '5000']
+Selenium		--> //td[text() = 'Selenium']
+8000			--> //td[text() = '8000']
+
+//td[text() = ' Manual Testing ']  --> Invalid
+//td[text() = "5000"]              --> Valid
+
+----------------------------------------------------------------------------------
+
+Xpath using contains():
+----------------------- 
+
+Diagram 3
+
+table2.html:
+-----------
+<html>
+<body>
+	<table border="1">
+		<tbody>
+			<tr>
+				<td>&nbsp;Manual&nbsp;Testing&nbsp;</td>
+				<td>5000</td>	
+			</tr>
+			<tr>
+				<td>Selenium</td>
+				<td>8000</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>
+
+Diagram 4 - Tree Structure
+
+Identifying the xpath using text():
+-----------------------------------
+Manual Testing  --> //td[text() = 'Manual Testing']  --> Invalid
+Manual Testing  --> //td[text() = ' Manual Testing ']  --> Invalid
+
+5000			--> //td[text() = '5000']         --> Valid
+Selenium		--> //td[text() = 'Selenium']     --> Valid
+8000			--> //td[text() = '8000']        --> Valid
+
+NOTE:
+-----
+	--> The problem with the text() is that it can not handle the non breakable spaces.
+	--> Spaces in the HTML can be created in 2 ways
+	1. Using Space bar key in the keyboard
+	2. Using &nbsp [Non Breakable Space]
+------------------------------------------------------------------------------
+The Problem associated with text() can be overcome by using contains()
+----------------------------------------------------------------------
+Identifying the xpath using contains():
+---------------------------------------
+table3.html:
+-----------
+<html>
+<body>
+	<table border="1">
+		<tbody>
+			<tr>
+				<td>&nbsp;Manual Testing&nbsp;</td>
+				<td>5000</td>	
+			</tr>
+			<tr>
+				<td>Selenium</td>
+				<td>8000</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>
+
+Syntax of contains():
+---------------------
+//tagname [contains(text(),'value')]
+
+
+Manual Testing:
+---------------
+//td [contains(text(),'Manual Testing')]    --> Valid 
+//td[contains(text(),' Manual Testing ')]   --> Invalid
+
+
+NOTE:
+-----
+	--> If the &nbsp is present b/w the data then using contains() also we can identify the web element
+
+-------------------------------------------------------------------------------
+
+Forward Traversal & Reverse Traversal:
+--------------------------------------
+
+Diagram 5
+
+traversal.html
+--------------
+<html>
+<body>
+	<table border="1">
+		<tbody>
+			<tr>
+				<td>Manual Testing</td>
+				<td>10000</td>	
+			</tr>
+			<tr>
+				<td>Selenium</td>
+				<td>20000</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>
+
+Diagram 6 - Tree Structure
+
+----------------------------------------------------------------------------------
+NOTE:
+-----
+	--> Moving from one Element to another elements from the HTML tree structure is referred as "Traversal"
+	
+	--> Moving from Parent element to Child Element in the HTML tree structure is referred as "Forward Traversal"[Top to Bottom]
+	--> Moving from Child element to Parent Element in the HTML tree structure is referred as "Reverse Traversal/Backward Traversal" [Bottom to Top]
+----------------------------------------------------------------------------------
+Handling Dynamic Elements/Duplicate Elements :
+----------------------------------------------
+
+Independent and Dependent Xpath: [Imp]
+--------------------------------
+Dependent Elements:
+-------------------
+	Such Elements whose values keeps on changing is referred as "Dependent Elements"
+
+Independent Elements:
+---------------------
+	Such Elements whose values never changes is referred as "Independent Elements"
+
+
+Diagram 7
+
+dynamic.html
+--------------
+<html>
+<body>
+	<table border="1">
+		<tbody>
+			<tr>
+				<td>Manual Testing</td>
+				<td>10000</td>	
+			</tr>
+			<tr>
+				<td>Selenium</td>
+				<td>20000</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>
+
+Diagram 8 - Tree Structure
+
+Syntax of text():
+-----------------
+//Tagname[text() = 'Value']
+
+
+Xpath for Identifying Course fee of Selenium [Dependent Element]:
+-----------------------------------------------------------------
+//td[text()='20000']
+
+Xpath for Identifying Course fee of Manual Testing [Dependent Element]
+----------------------------------------------------------------------
+//td[text()='10000']
+
+****************************************************************************
+Xpath for Identifying Course fee of Selenium [Dependent Element] using Independent Element:
+-------------------------------------------------------------------------------------------
+//td[text()='Selenium']//..//td[2]
+
+
+Xpath for Identifying Course fee of Manual Testing [Dependent Element] using Independent Element:
+-------------------------------------------------------------------------------------------
+//td[text()='Manual Testing']//..//td[2]
+
+---------------------------------------------------------------------------------------
+
+Diagram 9
+
+dynamic1.html
+------------
+<html>
+<body>
+	<table border="1">
+		<tbody>
+			<tr>
+				<td>Java</td>
+				<td>50000</td>
+				<td>Spring</td>
+			</tr>
+			<tr>
+				<td>Python</td>
+				<td>70000</td>
+				<td>Django</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>
+
+Diagram 10 - Tree Structure
+
+tr[1]
+-----
+Dependent Element - 50000 [1]
+Independent Element - Java,Spring [2]
+
+tr[2]
+-----
+Dependent Element - 70000 [1]
+Independent Element - Python,Django [2]
+
+*******************************************************
+Xpath for Identifying Course fee of Java [Dependent Element]:
+-------------------------------------------------------------
+//td[text() = '50000']
+
+Xpath for Identifying Course fee of Python [Dependent Element]:
+-------------------------------------------------------------
+//td[text() = '70000']
+
+Xpath for Identifying  Java [Independent Element]:
+-------------------------------------------------------------
+//td[text() = 'Java']
+
+Xpath for Identifying Python [Independent Element]:
+-------------------------------------------------------------
+//td[text() = 'Python']
+
+Xpath for Identifying  Spring [Independent Element]:
+-------------------------------------------------------------
+//td[text() = 'Spring']
+
+Xpath for Identifying Django [Independent Element]:
+-------------------------------------------------------------
+//td[text() = 'Django']
+
+*****************************************************************************
+
+Xpath for Identifying Course fee of Java [Dependent Element] using Independent Elements:
+-------------------------------------------------------------------------------------------
+//td[text() = 'Java']//..//td[2]
+	or
+//td[text() = 'Spring']//..//td[2]	
+
+Xpath for Identifying Course fee of Python [Dependent Element] using Independent Elements:
+-------------------------------------------------------------------------------------------
+//td[text()='Python']/../td[2]
+		or
+//td[text()='Django']/../td[2]
+
+-------------------------------------------------------------------------
+
+Steps involved in writing the xpath for Dynamic Elements/Dependent Element:
+--------------------------------------------------------------------------------
+1. Identify the "Independent and Dependent Elements"
+2. Write the "xpath for Independent Element"
+3. Whatever the web element identified for the above written xpath, 
+select the HTML code in the HTML console
+4. Perform "Backward traversal" until we find the common Parent[Both Independent and Dependent
+Elements should be highlighted]
+5. Update the Backward Traversal in the Xpath
+6. From the common Parent , Perform Forward Traversal to find the dependent element
+
+Scenario to be Automated:
+-------------------------
+Write the dependent and Independent xpath to match the price of apple i phone 7 in the Flipkart application
+						or
+Write the  xpath to match the Dynamic Element of apple i phone 7 in the Flipkart application
+						or
+Write the  xpath to match the price of apple i phone 7 in the Flipkart application
+
+Step1:
+------
+Dependent Element - Price  (25099)
+Independent Element - Name (APPLE iPhone 7 (Black, 32 GB))
+
+Step2:
+------
+//span[text()='APPLE iPhone 7 (Black, 32 GB)']
+
+Step3 & Step4, Step5:
+---------------------
+//span[text()='APPLE iPhone 7 (Black, 32 GB)']/../../..
+
+Step6:
+------
+//span[text()='APPLE iPhone 7 (Black, 32 GB)']/../../../div[4]/div[1]/div[1]/div[1]
+---------------------------------------------------------------------------------------
+
+Scenario to be Automated:
+-------------------------
+Write the dependent and Independent xpath to match the ratings of OnePlus 10T 5G (Moonstone Black, 16GB RAM, 256GB Storage) in the Amazon application
+						or
+Write the  xpath to match the Dynamic Element of OnePlus 10T in the Amazon application
+						or
+Write the  xpath to match the ratings of OnePlus 10T in the Amazon application
+
+Step1:
+------
+Dependent Element - ratings  (1473)
+Independent Element - Name (OnePlus 10T 5G (Moonstone Black, 16GB RAM, 256GB Storage))
+
+Step2:
+------
+//span[text()='        OnePlus 10T 5G (Moonstone Black, 16GB RAM, 256GB Storage)       ']
+
+Step3 & Step4, Step5:
+---------------------
+//span[text()='        OnePlus 10T 5G (Moonstone Black, 16GB RAM, 256GB Storage)       ']/../../../..
+
+Step6:
+------
+//span[text()='        OnePlus 10T 5G (Moonstone Black, 16GB RAM, 256GB Storage)       ']/../../../../div[5]/div[1]/span[3]
+
+
+Assignment:
+-----------
+Scenario to be Automated:
+-------------------------
+Write the  xpath to match the Price of "Nike Mens Joyride Run Flyknit Running Shoe" in the Amazon application
+
+https://www.amazon.in/Nike-Joyride-Flyknit-AQ2730_White-Platinum/dp/B07WGKD56G/ref=sr_1_42?crid=3K1GYCZYCBLQ3&keywords=nike+shoes+for+men&qid=1666024660&qu=eyJxc2MiOiIxMS4xMCIsInFzYSI6IjEwLjkwIiwicXNwIjoiOS4zNyJ9&sprefix=Nike+%2Caps%2C327&sr=8-42
+
+
+//span[text()='        Nike Mens Joyride Run Flyknit Running Shoe       ']/../../../../../../div[3]/div[2]/div[1]/table/tbody/tr/td[2]/span[1]/span[1]
+
+-------------------------------------------------------------------------------
+GroupByIndex:
+-------------
+	Whenever we identify multiple elements for specific xpath , then in order to identify the specific element we have to use GroupByIndex
+
+Syntax:
+-------
+(xpath)[index]
+
+1. Write the Dependent and Independent Xpath to match the offer of the book "Rich Dad Poor Dad  (Paperback, Robert T. Kiyosaki)" in the Flipkart Application.
+
+Xpath for Independent Element:
+------------------------------
+(//a[text()='Rich Dad Poor Dad'])[2]
+
+
+Xpath
+-----
+(//a[text()='Rich Dad Poor Dad'])[2]/../a[3]/div[1]/div[3]/span
+
+------------------------------------------------------------------------------------------------
+Assignment
+----------
+
+Write the Dependent and Independent Xpath to match the offer of the book "Wings Of Fire" in the Flipkart Application.[(60% off)]
+
+------------------------------------------------------------------------------------------------
+Write the Dependent and Independent Xpath to match the offer of the book "You can Win" in the Amazon Application.[(Rs.295)]
+
+------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

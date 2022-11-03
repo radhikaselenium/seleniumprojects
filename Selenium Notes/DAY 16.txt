@@ -1,0 +1,308 @@
+Project:
+--------
+1. Automate Flipkart Application by placing an order
+	
+	--> Open any browser [Chrome/Firefox]
+	--> Navigate to https://www.flipkart.com/
+	--> Click on Login button
+	--> Enter the email/phone number & Password, again click on login button
+	--> under search option enter the product[pendrive]
+	--> Select the product[HP 64 GB pendrive]
+	--> Under Product page , select "Add to Cart"
+	--> Click on "Place Order"
+	--> Under address section , click on "Deliver Here"
+	--> Click on "Continue"
+	--> Select "Cash on Delivery" option
+	--> Provide 10 Second Delay
+	--> Read the Number captcha and enter the number under text box [Manual Process]
+	--> Click on "Confirm Order"
+
+	Cancelling the order
+	
+	--> Click on "Cancel Button"
+	--> under a pop window select "Cancel Order"
+	--> Under Reason for Cancellation select any of the suitable dropdown [I have changed my mind]
+	--> under comment section enter a suitable comment [Not interested]
+	--> Click on continue button
+	--> Under Refund Modes select 2nd radio button i.e "No valid refund"
+	--> Click on "Request Cancellation" button
+	--> Hover the mouse on account icon, select logout option 
+	
+Program:
+--------
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Set;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Project1
+{
+	public static void main(String[] args) throws InterruptedException
+	{
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("https://www.flipkart.com/");
+		
+		Thread.sleep(5000);
+		// Refreshing the web page
+		driver.navigate().refresh();
+		Thread.sleep(5000);
+			
+		//To identify Email/Phone number field
+		WebElement ph_no = driver.findElement(By.xpath("//input[@class='_2IX_2- VJZDxU']"));
+		ph_no.sendKeys("9743721234");
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+			
+		//To identify Password field
+		WebElement pwd = driver.findElement(By.xpath("//input[@class='_2IX_2- _3mctLh VJZDxU']"));
+		pwd.sendKeys("flipcart@123");
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+			
+		// To identify Login Button
+		WebElement login_button = driver.findElement(By.xpath("//button[@class='_2KpZ6l _2HKlqd _3AWRsL']"));
+		login_button.click();
+		
+		Thread.sleep(5000);
+		// Refreshing the web page
+		driver.navigate().refresh();
+		Thread.sleep(5000);
+		
+		// To identify search bar 
+		WebElement search_bar = driver.findElement(By.xpath("//input[@name='q']"));
+		search_bar.sendKeys("pendrive");
+		search_bar.sendKeys(Keys.ENTER);		
+					
+		Thread.sleep(5000);
+		// Refreshing the web page
+		driver.navigate().refresh();
+		Thread.sleep(5000);
+		
+		// To identify product
+		WebElement product = driver.findElement(By.xpath("//img[@alt='HP x220w 64 GB Pen Drive']"));
+		product.click();
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+		
+		// Code to fetch the address of Parent Tab as well as Child Tabs
+		Set<String> P_C_addr = driver.getWindowHandles();
+		ArrayList<String> a = new ArrayList<String>(P_C_addr);
+		driver.switchTo().window(a.get(1));
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+		
+		// To identify add to cart button
+		WebElement add_to_cart = driver.findElement(By.xpath("//button[@class='_2KpZ6l _2U9uOA _3v1-ww']"));
+		add_to_cart.click();
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+		
+		// To identify Place Order Button
+		WebElement place_order_button = driver.findElement(By.xpath("//button[@class='_2KpZ6l _2ObVJD _3AWRsL']"));
+		place_order_button.click();
+			
+		// To identify Deliver Here Button
+		WebElement deliver_here_button = driver.findElement(By.xpath("//button[@class='_2KpZ6l RLM7ES _3AWRsL']"));
+		deliver_here_button.click();
+		
+		Thread.sleep(5000);
+		driver.navigate().refresh();
+		Thread.sleep(5000);
+		
+		// To identify Continue Button
+		WebElement continue_button = driver.findElement(By.xpath("//button[@class='_2KpZ6l _1seccl _3AWRsL']"));
+		continue_button.click();
+		
+		// To identify COD option
+		WebElement cod = driver.findElement(By.xpath("//div[@class='_2ECO5T']"));
+		cod.click();
+				
+		// Delay of 10 Sec
+		Thread.sleep(10000);
+				
+		// To identify Confirm Order
+		WebElement confirm_order = driver.findElement(By.xpath("//span[text()='Confirm Order']"));
+		confirm_order.click();
+		
+	}
+}
+
+Framework:
+----------
+
+1. Data Driven Framework [DDF]
+2. Keyword Driven Framework [KDF]
+3. Hybrid Driven Framework [HDF]
+4. Page Object Model  [POM]
+5. Page Factory Model  [PFM]		
+6. TestNG Framework [Test Next Generation Framework]
+
+
+--------------------------------------------------------------------------------
+Assignment:
+-----------
+2. Automate Amazon Application by placing an order
+
+3. Automate Myntra Application by placing an order
+	
+4. Automate Zomato Application by placing an order	[Your Fav Food]
+--------------------------------------------------------------------------------
+
+Project 2:
+----------
+
+Whatsapp
+---------
+
+Scenario to be automated:
+-------------------------
+1. Open any browser [Chrome Browser]
+2. Open Whatsapp Application [https://web.whatsapp.com/]
+3. Click On search Box
+4. Enter the Phone number
+5. Send some message 
+
+
+Program: for a single user
+--------
+import java.io.IOException;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Whatsapp
+{
+	public static void main(String[] args) throws InterruptedException, IOException
+	{
+		
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("https://web.whatsapp.com/");
+		
+		//SCAN the QR code within 10 seconds 
+		Thread.sleep(15000);
+						
+		// Refreshing the web page
+		driver.navigate().refresh();
+		Thread.sleep(10000);
+		
+		// To Identify Search Bar
+		WebElement search_bar = driver.findElement(By.xpath("//div[@title='Search input textbox']"));
+		Thread.sleep(5000);
+		
+		search_bar.sendKeys("8553531326");
+		search_bar.sendKeys(Keys.ENTER);
+		
+		// To Identify message_bar
+		WebElement message_bar = driver.findElement(By.xpath("//p[@class='selectable-text copyable-text']"));
+		Thread.sleep(8000);
+		message_bar.sendKeys("Hi Sandesh Sir!!!");
+		message_bar.sendKeys(Keys.ENTER);		
+		
+		
+	}
+}
+
+
+Program: [Multiple Users]
+-------
+
+package com.excelr.browserstack;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.math.BigDecimal;
+
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Whatsapp
+{
+	public static void main(String[] args) throws InterruptedException, IOException
+	{
+		
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("https://web.whatsapp.com/");
+		
+		//SCAN the QR code within 10 seconds 
+		Thread.sleep(15000);
+						
+		// Refreshing the web page
+		driver.navigate().refresh();
+		Thread.sleep(10000);
+		
+		FileInputStream fis = new FileInputStream("E:\\Excelr_Selenium_Sep7\\Hybrid Driven Excel Framework\\src\\com\\excelr\\utilities\\Book1.xlsx");
+		XSSFWorkbook workbook = new XSSFWorkbook(fis);
+		XSSFSheet sheet = workbook.getSheetAt(0);
+		
+		for(int i = 1;; i++)
+		{
+			Row row = sheet.getRow(i);
+			
+			if(row == null)
+			{
+				break;
+			}
+			
+			String phoneNum = new BigDecimal(row.getCell(0).toString()).toString();
+			String message = row.getCell(1).toString();
+			// To Identify Search Bar
+			WebElement search_bar = driver.findElement(By.xpath("//div[@title='Search input textbox']"));
+			Thread.sleep(5000);
+			
+			search_bar.sendKeys(phoneNum);
+			search_bar.sendKeys(Keys.ENTER);
+			
+			// To Identify message_bar
+			WebElement message_bar = driver.findElement(By.xpath("//p[@class='selectable-text copyable-text']"));
+			Thread.sleep(8000);
+			message_bar.sendKeys(message);
+			message_bar.sendKeys(Keys.ENTER);	
+			
+			System.out.println(phoneNum);
+			System.out.println(message);
+		}
+			
+	}
+}
+
+---------------------------------------------------------------------------------------
+
+Instagram:
+----------
+sandesh6460
+
+FaceBook:
+---------
+
+
+Telegram:
+---------
+
+
+---------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+	
+	
+	
+	
+	

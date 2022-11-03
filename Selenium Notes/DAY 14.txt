@@ -1,0 +1,551 @@
+Maven:
+-----
+	--> Maven is a "Project Management Tool" used to download the jar files automatically to the project 
+
+--------------------------------------------------------------------------
+Maven Project consists of 3 phases 
+	1. Creation of the Project
+	2. Adding the Dependencies 
+	3. Executing the Project 	
+--------------------------------------------------------------------------	
+
+
+Steps involved in downloading Maven:
+------------------------------------
+1. Open the browser, search for "apache maven"
+2. click on the first link 
+3. click on the download link 
+4. Scroll down to files section and click on "apache-maven-3.8.6-bin.zip"
+5. Extract and place inside "Selenium Components" 
+
+6. Go to "This PC" , Right click
+7. Click on Properties 
+8. Click on "Advanced System Settings"
+9. Select "Environment Variables"
+10. Under "System Variables" , create one variable 
+	name - M2_HOME
+	path - E:\Excelr_Selenium_Sep7\Sel Components\apache-maven-3.8.6\bin
+	
+
+1. Creation of the Project
+---------------------------
+1. Go to Eclipse
+2. Click on file -- New -- Project 
+3. Search for Maven Project 
+4. Click on Maven Project 
+5. Enable the checkbox "create a simple project" and click on next 
+6. Under Group ID give any package name 
+7. Under Artifact ID give project name 
+	
+8. From the POM Framework project copy all the page objects
+9. i.e Welcome.java, Signin.java, Account.java
+10. Under MavenProject -- src/main/java , paste it 
+11. From POM Project , copy the class file which contains test case [Demo8.java]
+and place it in src/test/java 
+
+
+
+2. Adding the Dependencies 
+--------------------------
+	--> selenium
+	--> TestNG 
+
+1. Open Browser 
+2. Enter Maven Repository 
+3. click on first link 
+4. Under Search box , search "Selenium"
+5. click on the first link - Selenium Java
+6. Click on 3.14.0 
+7. Under Maven Section  , copy the code present and paste it in pom.xml file
+of the maven project 
+8. Inside the pom.xml file create dependencies tag 
+9. Within that paste the code which is copied from MVN repository
+
+10. Again from the MVN Repository search for TestNG 
+11. Click on the first link - TestNG
+12. Click on 6.14.3 link 
+13. From the Maven Section Copy the dependency and paste it in pom.xml 
+14. Under Java class file remove the main method and use @Test , provide a suitable method 
+15. Once after adding all the dependencies , select the project and go to Maven and click on update project [Alt+f5] 
+
+
+3. Executing the Project
+------------------------
+1. Select the Maven Project, then right click
+2. run as - Maven Test 
+
+
+Project Structure:
+------------------
+
+Demo8.java:
+----------
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.Test;
+
+public class Demo8
+{
+	@Test
+	public void positiveCredentials() throws InterruptedException 
+	{
+	
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		Thread.sleep(10000);
+		
+		driver.get("https://www.browserstack.com");
+		
+		Welcome w = new Welcome(driver);
+		w.clickOnSignIn();
+		
+		Signin s = new Signin(driver);
+		s.typeEmail("sandeshhs6460@gmail.com");
+		s.typePassword("12345678");
+		s.acceptCookie();
+		s.signMeIn();
+		
+		Account a = new Account(driver);
+		a.accounButtonHover();
+		a.signOut();
+		
+		driver.close();
+	}
+}
+
+
+Welcome.java:
+-------------
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+
+public class Welcome 
+{
+	WebDriver driver;
+	By sign_in = By.xpath("(//a[text()='Sign in'])[1]");
+	
+	public Welcome (WebDriver driver)
+	{
+		this.driver = driver;
+	}
+	
+	public void clickOnSignIn()
+	{
+		driver.findElement(sign_in).click();
+	}
+}
+
+
+
+Signin.java:
+------------
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+
+public class Signin
+{
+	WebDriver driver;
+	By email = By.xpath("//input[@id = 'user_email_login']");
+	By password = By.xpath("//input[@id = 'user_password']");
+	By accept_cookie = By.xpath("//button[@id='accept-cookie-notification']");
+	By signme_in = By.xpath("(//input[@name= 'commit'])[1]");
+	
+	public Signin (WebDriver driver)
+	{
+		this.driver = driver;
+	}
+	
+	public void typeEmail(String e)
+	{
+		driver.findElement(email).sendKeys(e);
+	}
+	public void typePassword(String p)
+	{
+		driver.findElement(password).sendKeys(p);
+	}
+	public void acceptCookie()
+	{
+		driver.findElement(accept_cookie).click();
+	}
+	public void signMeIn()
+	{
+		driver.findElement(signme_in).click();
+	}
+}
+
+
+Account.java:
+-------------
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.interactions.Actions;
+
+public class Account
+{
+	WebDriver driver;
+	By sign_out = By.xpath("//a[@title='Sign out' and @id ='sign_out_link']");
+	
+	public Account (WebDriver driver)
+	{
+		this.driver = driver;
+	}
+	
+	public void accounButtonHover()
+	{
+		Actions a = new Actions(driver);
+		a.moveToElement(driver.findElement(By.xpath("//button[@id='account-menu-toggle']"))).build().perform();	
+	}
+	public void signOut()
+	{
+		driver.findElement(sign_out).click();
+	}
+}
+
+pom.xml:
+--------
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.execlr.browserstack</groupId>
+  <artifactId>MavenProject</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  
+  <dependencies>
+	<dependency>
+    	<groupId>org.seleniumhq.selenium</groupId>
+   	 	<artifactId>selenium-java</artifactId>
+    	<version>3.14.0</version>
+	</dependency>
+	
+
+	<dependency>
+   	 	<groupId>org.testng</groupId>
+   	 	<artifactId>testng</artifactId>
+   	 	<version>6.14.3</version>
+    	<scope>test</scope>
+	</dependency>
+	
+	
+  </dependencies>
+  
+  
+</project>
+
+
+-------------------------------------------------------------------------------------------
+
+
+Mouse & Keyboard Events:
+-----------------------
+
+Action Class:
+-------------
+	--> Actions class is an ability provided by Selenium for Handling Keyboard and Mouse Events
+	
+	--> Operations like drag and drop , clicking on multiple elements 
+	
+Syntax:
+-------
+	Actions action = new Actions(driver);
+	action.moveoElement(___).click().perform();
+	
+	
+Mouse Actions in Selenium:
+--------------------------
+doubleClick(): Performs double click on the element
+clickAndHold(): Performs long click on the mouse without releasing it
+dragAndDrop(): Drags the element from one point and drops to another
+moveToElement(): Shifts the mouse pointer to the center of the element
+contextClick(): Performs right click on the mouse 
+
+
+Keyboard Actions in Selenium:
+-----------------------------
+sendKeys(): Sends a series of keys to the element
+keyUp(): Performs Key release
+keyDown(): Performs keypress without release
+
+
+Mouse Hovering action:
+----------------------
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+
+public class Testing1
+{
+	public static void main(String[] args) 
+	{
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("https://www.amazon.in/");
+		
+		 WebElement accountList = driver.findElement(By.id("nav-link-accountList-nav-line-1"));
+		 
+		 Actions actions = new Actions(driver);
+		 actions.clickAndHold(accountList).perform();
+		 
+		 WebElement sign_in = driver.findElement(By.xpath("(//span[text()='Sign in'])[1]"));
+		
+		 // actions.moveToElement(sign_in).perform();
+		 // actions.click().perform();
+		 actions.moveToElement(sign_in).click().build().perform();
+	}
+}
+
+
+------------------------------------------------------------------
+
+Drag and Drop Horizontally & Vertically:
+----------------------------------------
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+
+public class Testing2
+{
+
+	public static void main(String[] args) throws InterruptedException 
+	{
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("http://omayo.blogspot.com/p/page3.html");
+		
+		 WebElement drag_ele = driver.findElement(By.xpath("//a[@ aria-labelledby= 'price-min-label']"));
+		 
+		 Actions actions = new Actions(driver);
+		 actions.dragAndDropBy(drag_ele, 100, 0).perform();
+		 Thread.sleep(2000);
+		 actions.dragAndDropBy(drag_ele, -70, 0).perform();
+	}
+}
+
+------------------------------------------------------------------
+Right Click :
+-------------
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+
+public class Testing3
+{
+	public static void main(String[] args) 
+	{
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("http://tutorialsninja.com/demo/");
+		
+		 WebElement search_box = driver.findElement(By.name("search"));
+		 Actions actions = new Actions(driver);
+		 actions.contextClick(search_box).perform();
+		
+	}
+}
+
+------------------------------------------------------------------
+
+Double Click Action:
+--------------------
+	--> Performs double click on the element
+	--> First find the element on which double click has to be performed 
+	--> Use Action class's doubleClick(WebElement).perform();
+
+syntax:
+-------
+doubleClick()
+
+ex1:
+----
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+
+public class Testing4
+{
+	public static void main(String[] args) 
+	{
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("http://omayo.blogspot.com");
+		
+		WebElement double_click = driver.findElement(By.id("testdoubleclick"));
+		
+		Actions action = new Actions(driver);
+		action.doubleClick(double_click).build().perform();
+		 
+	}
+}
+
+ex2:
+----
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+
+public class Testing5
+{
+	public static void main(String[] args) 
+	{
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("http://omayo.blogspot.com");
+		
+		WebElement double_click = driver.findElement(By.xpath("//button[text()=' Double click Here   ']"));
+		Actions action = new Actions(driver);
+		action.doubleClick(double_click).build().perform();
+		 
+	}
+}
+-----------------------------------------------------------------------
+Click and Hold Actions:
+-----------------------
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+
+public class Testing6
+{
+	public static void main(String[] args) 
+	{
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("https://www.amazon.in/");
+		
+		 WebElement accountList = driver.findElement(By.id("nav-link-accountList-nav-line-1"));
+		 Actions action = new Actions(driver);
+		 action.clickAndHold(accountList).build().perform();
+		 
+	}
+}
+
+------------------------------------------------------------------
+Hold , Drag and Drop:
+---------------------
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+
+public class Testing7
+{
+	public static void main(String[] args) 
+	{
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("http://dhtmlgoodies.com/scripts/drag-drop-custom/demo-drag-drop-3.html");
+		
+		 WebElement oslo_ele = driver.findElement(By.id("box1"));
+		 WebElement norway_ele = driver.findElement(By.id("box101"));
+		 
+		 Actions actions = new Actions(driver);
+		 actions.clickAndHold(oslo_ele).moveToElement(norway_ele).release().build().perform();
+	}
+}
+
+------------------------------------------------------------
+Single Drag and Drop:
+---------------------
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+
+public class Testing8 
+{
+	public static void main(String[] args) 
+	{
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("http://dhtmlgoodies.com/scripts/drag-drop-custom/demo-drag-drop-3.html");
+		
+		WebElement oslo_ele = driver.findElement(By.id("box1"));
+		WebElement norway_ele = driver.findElement(By.id("box101"));
+		 
+		Actions actions = new Actions(driver);
+		actions.dragAndDrop(oslo_ele, norway_ele).perform();
+		
+	}
+}
+------------------------------------------------------------
+
+
+Key up , Key down:
+------------------
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+
+public class Testing9 
+{
+	public static void main(String[] args) 
+	{
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("http://omayo.blogspot.com");
+		
+		 WebElement com_link = driver.findElement(By.linkText("compendiumdev"));
+		 
+		 Actions actions = new Actions(driver);
+		 actions.keyDown(Keys.CONTROL).moveToElement(com_link).click().keyUp(Keys.CONTROL).build().perform();
+}
+}
+
+
+------------------------------------------------------------------
+
+Resizing using Drag and Drop By:
+---------------------------------
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+
+public class Testing10 {
+
+	public static void main(String[] args) 
+	{
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("https://jqueryui.com/resizable/");
+		
+		 WebElement frameElement = driver.findElement(By.className("demo-frame"));
+		 driver.switchTo().frame(frameElement);
+		 
+		 WebElement resize_option = driver.findElement(By.xpath("//div[@class='ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se']"));
+		 
+		 Actions actions = new Actions(driver);
+		 actions.dragAndDropBy(resize_option, 100, 120).perform();
+		
+	}
+}
+
+
+------------------------------------------------------------------
+
+
+
+
+
+

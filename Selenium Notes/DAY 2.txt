@@ -1,0 +1,355 @@
+Selenium Web Driver:
+--------------------
+		--> Selenium Web Driver will not be having any GUI
+		
+Diagram 1
+
+Diagram 2
+
+
+Web driver:
+-----------	
+	Web driver is an interface which is used to test the s/w's on various browsers
+
+--> Web Driver is a test automation tool which provides the framework to test the s/w across
+multiple browsers
+--> Framework is a set of standards to obtain the better results
+	
+Steps involved in configuring Eclipse:
+--------------------------------------
+1. Open Eclipse and create a new workspace[Folder]- "Excelr_Selenium_Sep7" in any directory
+2. In the project explorer right click then go to new , then create a new java project
+3. Give a name to a java project[selenium]
+4. Click on "Use default JRE" radio button
+5. Click on the link "Configure JRE"
+6. Click on "Add Button"
+7. Make use the "Standard VM" is selected and click on Next
+8. Click on the Directory button and select the path of JDK
+	i.e   C:\Program Files\Java\jdk[version]
+9. Finally click on finish 
+10. Select the JDK checkbox [By default JRE will be selected], click on apply and close.
+11. Click on next and select the o/p path as projectname/src  --> selenium/src
+12. Click on Finish
+
+Adding Selenium Jars to the newly created Java Project in Eclipse
+------------------------------------------------------------
+1. Select the Project
+2. Right click then go to build path and click on configure build path
+3. Click on the libraries tab and click on add external jars button
+4. Select the path of selenium jar files which is present in Selenium Components folder 
+5. Click on Apply and Close
+
+
+Adding the Driver S/w's to a Java Project
+-----------------------------------------
+	Drivers s/w's can be added using 3 ways
+
+1. Using System.setProperty(key,value)
+2. Using Environment Variables
+3. By Copy - Pasting the driver s/w's into the Project directory
+
+
+1. Using System.setProperty(key,value):
+---------------------------------------
+key   --> which driver s/w 
+value --> path of that driver s/w
+
+1. Write a Script to open Firefox browser by adding geckodriver using System.setProperty method
+
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+public class Launch1
+{
+
+ public static void main(String[] args)
+	{
+	//System.setProperty(key,value)
+	System.setProperty("webdriver.gecko.driver","E:\\Excelr_Selenium_Sep7\\Selenium Components\\geckodriver.exe");
+	
+	FirefoxDriver f = new FirefoxDriver();
+	
+	}
+}
+
+
+o/p:
+----
+	Firefox Browser should be launched
+
+
+--------------------------------------------------------------------
+2. Write a Script to open Google Chrome browser by adding chromedriver using System.setProperty method
+
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Launch2
+{
+
+ public static void main(String[] args)
+	{
+	
+	System.setProperty("webdriver.chrome.driver","E:\\Excelr_Selenium_Sep7\\Selenium Components\\chromedriver.exe");
+	
+	ChromeDriver f= new  ChromeDriver();
+	
+	}
+}
+
+o/p:
+----
+	Chrome Browser should be launched
+
+---------------------------------------------------------------------------------------
+
+3. Write a Script to open Internet Explorer browser by using System.setProperty method
+
+import org.openqa.selenium.ie.InternetExplorerDriver;
+
+public class Launch3
+{
+	public static void main(String[] args)
+	{
+		System.setProperty("webdriver.ie.driver","E:\\Excelr_Selenium_Sep7\\Selenium Components\\IEDriverServer.exe");
+		
+		InternetExplorerDriver f= new  InternetExplorerDriver();
+	}
+}
+
+o/p:
+----
+	Internet Explorer Browser should be launched
+
+---------------------------------------------------------------------------------------
+
+4. WAS to automate the following scenario
+
+	--> Open Chrome Browser
+	--> Navigate to gmail application[www.gmail.com]
+	--> Wait for 5 seconds 
+	--> Close the browser
+
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Launch4
+{
+
+ public static void main(String[] args) throws InterruptedException
+	{
+	//Open the Chrome Browser
+	System.setProperty("webdriver.chrome.driver","E:\\Excelr_Selenium_Sep7\\Selenium Components\\chromedriver.exe");
+	
+	ChromeDriver driver = new  ChromeDriver();
+	
+	String url = "https://www.gmail.com";
+	
+	//Navigate to Gmail Application
+	driver.get(url);
+	
+	//Provide 5 seconds Delay
+	Thread.sleep(5000);
+	
+	// Close the Browser
+	driver.close();
+		
+		}
+	}
+
+
+
+---------------------------------------------------------------------------------------
+
+5. WAS to verify the title of gmail application
+
+
+import java.util.Scanner;
+
+import org.openqa.selenium.chrome.ChromeDriver;
+
+class Launch5
+{
+	public static void main(String[] args)
+	{
+		System.out.println("Enter the Title");
+		
+		Scanner scan = new Scanner(System.in);
+		String etitle = scan.next();
+		
+		//Open the Chrome Browser
+		System.setProperty("webdriver.chrome.driver","E:\\Selenium\\Selenium Components\\chromedriver.exe");
+		ChromeDriver driver = new  ChromeDriver();
+		
+		//Navigate to Gmail Application
+		driver.get("https://www.gmail.com");
+		
+		String atitle = driver.getTitle();
+		
+		// Close the Browser
+		driver.close();
+		
+		System.out.println("Expected Title : "+etitle);
+		System.out.println("Actual Title : "+atitle);
+			
+		if (etitle.equals(atitle))
+		{
+			System.out.println("Pass");
+		}
+		else
+		{
+			System.out.println("Fail");
+		}	
+	}
+}
+
+o/p:
+-----
+Enter the Title
+Gmail
+
+Expected Title : Gmail
+Actual Title : Gmail
+Pass
+
+---------------------------------------------------------------------------------------
+
+6. WAS to display the current url of the Gmail Application
+
+import org.openqa.selenium.chrome.ChromeDriver;
+
+class Launch6
+{
+	public static void main(String[] args) 
+	{
+	
+	//Open the Chrome Browser
+	System.setProperty("webdriver.chrome.driver","E:\\Selenium\\Selenium Components\\chromedriver.exe");
+	
+	ChromeDriver driver = new  ChromeDriver();
+		
+	//Navigate to Gmail Application
+	driver.get("https://www.gmail.com");
+	
+	String curl = driver.getCurrentUrl();
+	
+	System.out.println(curl);
+	
+	// Close the Browser
+	driver.close();
+		
+	}
+}
+	
+o/p:
+----
+https://accounts.google.com/v3/signin/identifier?dsh=S2013826603%3A1665506900199625&continue=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F0%2F&emr=1&followup=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F0%2F&osid=1&passive=1209600&service=mail&flowName=GlifWebSignIn&flowEntry=ServiceLogin&ifkv=AQDHYWqr29d4YQd5HiONSyWxzRc-cNsongPVRJ7vIN1WzjSMs8Thc9GzAZ8kMQGpkZzAODjKdYp7
+
+-------------------------------------------------------------------------------------
+7. WAS to display the source code of the current web page
+
+import org.openqa.selenium.chrome.ChromeDriver;
+
+class Launch7
+{
+	public static void main(String[] args) 
+	{
+	
+	//Open the Chrome Browser
+	System.setProperty("webdriver.chrome.driver","E:\\Selenium\\Selenium Components\\chromedriver.exe");
+	
+	ChromeDriver driver = new  ChromeDriver();
+		
+	//Navigate to Gmail Application
+	driver.get("https://www.gmail.com");
+	
+	String ps = driver.getPageSource();
+	
+	System.out.println(ps);
+	
+	// Close the Browser
+	driver.close();
+	
+	}
+}
+
+---------------------------------------------------------------------------------------
+8. WAS to maximise the Chrome Browser window
+
+
+import org.openqa.selenium.chrome.ChromeDriver;
+
+class Launch8
+{
+	public static void main(String[] args) 
+	{
+	
+	//Open the Chrome Browser
+	System.setProperty("webdriver.chrome.driver","E:\\Selenium\\Selenium Components\\chromedriver.exe");
+	
+	ChromeDriver driver = new  ChromeDriver();
+	
+	driver.manage().window().maximize();
+
+	driver.get("https://www.gmail.com");
+	
+	Thread.sleep(5000);
+	
+	driver.close();
+	
+	}
+}
+
+---------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+	
+	
+	
+	
+
+
+
+

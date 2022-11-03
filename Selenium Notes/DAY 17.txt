@@ -1,0 +1,168 @@
+Version Control System:[VCS]/SCM/SCM
+-----------------------
+	--> Its a s/m which is responsible for managing changes in Projects i.e Multiple Versions of the Project will be maintained 
+
+	--> Version Control System is also known as Software Configuration Management (SCM) OR 
+Source Code Management (SCM) System
+
+Why VCS ?
+	
+	Diagram 1
+	
+Need of Version Control System:
+-------------------------------
+	1. To maintain Multiple versions of the same Project
+	2. At any given point of time we can have the backup code of the project
+	3. we can differentiate multiple version of the same project
+	4. we can run multiple versions of the same project simultaneously
+	5. It helps us to keep the track about history of the Project 
+
+These are some of the VCS:
+--------------------------
+1. GIT (Most preferred VCS by Developers)
+2. Apache
+.
+.
+.
+
+
+GIT [Global Information Tracker]:
+---------------------------------
+	Git is Distributed Version Control System Tool.
+	--> Git is not acronym and hence no expansion.But most of the people abbreviated as 
+ "Global Information Tracker".
+	--> GIT is developed by Linus Torvalds(Finnish software engineer), who also developed 
+Linux Kernel.
+	--> Most of the companies like Microsoft,Facebook,Yahoo,LinkedIn,Intel using Git as 
+Version Control System Tool.
+
+
+Working with VCS(Git):
+----------------------
+
+
+1. Install Git  (Download Git for Windows)
+2. Create a Separate Folder in Local Machine, paste the Selenium Project inside this folder
+3. Initialise git
+	git init
+	
+4. Check the status
+	git status
+5. add the project to git
+	git add .
+It will add the files to the current working directory
+
+6.Commit the changes within git
+	git commit -m "firstcommit"
+
+firstcommit --> name
+
+----------------------------------------------------------------------------
+sande@LAPTOP-RQ5SKP35 MINGW64 /e/Excelr_Selenium_Sep7/VCS
+$ git init
+Initialized empty Git repository in E:/Excelr_Selenium_Sep7/VCS/.git/
+
+sande@LAPTOP-RQ5SKP35 MINGW64 /e/Excelr_Selenium_Sep7/VCS (master)
+$ git status
+On branch master
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        Hybrid Driven Framework/
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+sande@LAPTOP-RQ5SKP35 MINGW64 /e/Excelr_Selenium_Sep7/VCS (master)
+$ git add .
+
+sande@LAPTOP-RQ5SKP35 MINGW64 /e/Excelr_Selenium_Sep7/VCS (master)
+$ git status
+On branch master
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+        new file:   Hybrid Driven Framework/.classpath
+        new file:   Hybrid Driven Framework/.project
+        new file:   Hybrid Driven Framework/IEDriverServer.exe
+        new file:   Hybrid Driven Framework/chromedriver.exe
+        new file:   Hybrid Driven Framework/geckodriver.exe
+        new file:   Hybrid Driven Framework/src/com/excelr/browserstack/Demo4.class
+        new file:   Hybrid Driven Framework/src/com/excelr/browserstack/Demo4.java
+        new file:   Hybrid Driven Framework/src/com/excelr/utilities/hybriddriven.properties
+
+
+sande@LAPTOP-RQ5SKP35 MINGW64 /e/Excelr_Selenium_Sep7/VCS (master)
+$ git commit -m "firstcommit"
+[master (root-commit) eb3863a] firstcommit
+ 8 files changed, 190 insertions(+)
+ create mode 100644 Hybrid Driven Framework/.classpath
+ create mode 100644 Hybrid Driven Framework/.project
+ create mode 100644 Hybrid Driven Framework/IEDriverServer.exe
+ create mode 100644 Hybrid Driven Framework/chromedriver.exe
+ create mode 100644 Hybrid Driven Framework/geckodriver.exe
+ create mode 100644 Hybrid Driven Framework/src/com/excelr/browserstack/Demo4.class
+ create mode 100644 Hybrid Driven Framework/src/com/excelr/browserstack/Demo4.java
+ create mode 100644 Hybrid Driven Framework/src/com/excelr/utilities/hybriddriven.properties
+
+sande@LAPTOP-RQ5SKP35 MINGW64 /e/Excelr_Selenium_Sep7/VCS (master)
+$ git status
+On branch master
+nothing to commit, working tree clean
+
+
+---------------------------------------------------------------------------
+
+Online Repository:
+------------------
+
+Github:
+-------
+	Create the account in GitHub 
+
+
+git remote add origin path<GitHub>
+
+git remote add origin https://github.com/radhikaselenium/seleniumprojects.git
+
+git push -u origin master
+
+
+Enumerating objects: 16, done.
+Counting objects: 100% (16/16), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (14/14), done.
+Writing objects: 100% (16/16), 8.74 MiB | 4.22 MiB/s, done.
+Total 16 (delta 0), reused 0 (delta 0), pack-reused 0
+remote:
+remote: Create a pull request for 'master' on GitHub by visiting:
+remote:      https://github.com/radhikaselenium/seleniumprojects/pull/new/master
+remote:
+To https://github.com/radhikaselenium/seleniumprojects.git
+ * [new branch]      master -> master
+branch 'master' set up to track 'origin/master'.
+
+
+----------------------------------------------------------------------------------------
+
+Working with Github using Git:
+------------------------------
+ex:
+---
+	Using Git host a project into Github and provide the Github link
+
+1.Create Github Account
+2.Create a new Repository in Github
+3.Create a folder(Repository) within the Local Machine
+4.Initialise Git
+5.Add the project to git
+6.Commit the changes within git
+7.Provide the path of github repository to Git
+	git remote add origin path(HTTPS) 
+
+----------------------------------------------------------------------------------------
+
+

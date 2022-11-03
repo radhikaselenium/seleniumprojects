@@ -1,0 +1,455 @@
+Advanced locators:
+------------------
+
+CSS selectors:
+--------------
+
+CSS selectors is of 5 Types 
+
+1. tag & id 
+2. tag & class 
+3. tag & attribute 
+4. tag,class & attribute
+5. substrings [startswith, endswith, contains]
+
+1. tag & id 
+-----------
+Syntax:
+-------
+	"tagname#id"
+
+Identifying the web element using tag and id:
+--------------------------------------------
+WAS to open the chrome browser and navigate to Facebook application and type the email using CSS selectors[tag & id]
+
+HTML code for Email of Facebook:
+--------------------------------
+<input type="text" class="inputtext _55r1 _6luy" name="email" id="email" data-testid="royal_email" placeholder="Email address or phone number" autofocus="1" aria-label="Email address or phone number">
+
+"input#email"
+
+program:
+--------
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Launch19
+{
+	public static void main(String[] args) throws InterruptedException
+	{
+		ChromeDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("https://www.facebook.com");
+		Thread.sleep(5000);
+		WebElement email = driver.findElement(By.cssSelector("input#email"));
+		email.sendKeys("sandeshhs6460@gmail.com");
+	}
+}
+------------------------------------------------------------------------
+2. tag & class 
+--------------
+Syntax:
+-------
+	"tagname.class"
+
+Identifying the web element using tag and class:
+------------------------------------------------
+
+WAS to open the chrome browser and navigate to Facebook application and type the email using CSS selectors[tag & class]
+
+HTML code for Email of Facebook:
+--------------------------------
+<input type="text" class="inputtext _55r1 _6luy" name="email" id="email" data-testid="royal_email" placeholder="Email address or phone number" autofocus="1" aria-label="Email address or phone number">
+
+"input.inputtext"
+
+program:
+--------
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Launch20
+{
+	public static void main(String[] args) throws InterruptedException
+	{
+		ChromeDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("https://www.facebook.com");
+		Thread.sleep(5000);
+		WebElement email = driver.findElement(By.cssSelector("input.inputtext"));
+		email.sendKeys("sandeshhs6460@gmail.com");
+	}
+}
+
+------------------------------------------------------------------------
+3. tag & attribute :
+--------------------
+Syntax:
+-------
+	"tagname[attribute_name = 'attribute_value']"
+
+Identifying the web element using tag and attribute:
+----------------------------------------------------
+
+WAS to open the chrome browser and navigate to Facebook application and type the email using CSS selectors[tag & attribute]
+
+HTML code for Email of Facebook:
+--------------------------------
+<input type="text" class="inputtext _55r1 _6luy" name="email" id="email" data-testid="royal_email" placeholder="Email address or phone number" autofocus="1" aria-label="Email address or phone number">
+
+"input[name='email']"
+
+Program:
+--------
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Launch21
+{
+	public static void main(String[] args) throws InterruptedException
+	{
+		ChromeDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("https://www.facebook.com");
+		Thread.sleep(5000);
+		WebElement email = driver.findElement(By.cssSelector("input[name='email']"));
+		email.sendKeys("sandeshhs6460@gmail.com");
+	}
+}
+------------------------------------------------------------------------
+4. tag,class & attribute
+-------------------------
+Syntax:
+-------
+	"tagname.class[attribute_name = 'attribute_value']"
+
+
+Identifying the web element using tag ,class & attribute:
+-------------------------------------------------------
+WAS to open the chrome browser and navigate to Facebook application and type the email using CSS selectors[tag & attribute]
+
+HTML code for Email of Facebook:
+--------------------------------
+<input type="text" class="inputtext _55r1 _6luy" name="email" id="email" data-testid="royal_email" placeholder="Email address or phone number" autofocus="1" aria-label="Email address or phone number">
+
+"input.inputtext[name = 'email']"
+
+Program:
+--------
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Launch22
+{
+	public static void main(String[] args) throws InterruptedException
+	{
+		ChromeDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("https://www.facebook.com");
+		Thread.sleep(5000);
+		WebElement email = driver.findElement(By.cssSelector("input.inputtext[name = 'email']"));
+		email.sendKeys("sandeshhs6460@gmail.com");
+	}
+}
+-----------------------------------------------------------------------------
+
+5. substrings [startswith, endswith, contains]
+----------------------------------------------
+
+Identifying the web element using sub string:
+---------------------------------------------
+Under Substrings there are 3 Types
+	1. startswith
+	2. endswith
+	3. contains
+	
+
+"Seleniumisatool" -- String 
+Sele, tool, ium   -- substring
+
+--------------------------------------------------------------------------------------------
+startswith:
+-----------
+Syntax:
+-------
+"tagname[attribute_name ^= 'attribute_value']"
+--------------------------------------------------------------------------------------------
+endswith
+---------
+Syntax:
+-------
+"tagname[attribute_name $= 'attribute_value']"
+----------------------------------------------------------------------------------------------
+contains
+--------
+Syntax:
+-------
+"tagname[attribute_name *= 'attribute_value']"	
+----------------------------------------------------------------------------------------------
+
+
+startswith:
+-----------
+WAS to open the Firefox browser and navigate to gmail application and type the email using 
+CSS selectors [sub string - startswith]
+
+
+email:
+------
+<input type="email" class="whsOnd zHQkBf" jsname="YPqjbf" autocomplete="username" spellcheck="false" tabindex="0" aria-label="Email or phone" name="identifier" value="" autocapitalize="none" id="identifierId" dir="ltr" data-initial-dir="ltr" data-initial-value="">
+
+"input[id ^= 'iden']"
+
+Program:
+--------
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+public class Launch23
+{
+	public static void main(String[] args) throws InterruptedException
+	{
+		FirefoxDriver driver = new FirefoxDriver();
+		driver.manage().window().maximize();
+		driver.get("https://www.gmail.com");
+		Thread.sleep(5000);
+		WebElement email = driver.findElement(By.cssSelector("input[id ^= 'iden']"));
+		email.sendKeys("sandeshhs6460@gmail.com");
+	}
+}
+
+-----------------------------------------------------------------------------
+
+endswith:
+-----------
+WAS to open the Firefox browser and navigate to gmail application and type the email using 
+CSS selectors [sub string - endswith]
+
+
+email:
+------
+<input type="email" class="whsOnd zHQkBf" jsname="YPqjbf" autocomplete="username" spellcheck="false" tabindex="0" aria-label="Email or phone" name="identifier" value="" autocapitalize="none" id="identifierId" dir="ltr" data-initial-dir="ltr" data-initial-value="">
+
+"input[id $= 'rId']"
+
+Program:
+--------
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+public class Launch24
+{
+	public static void main(String[] args) throws InterruptedException
+	{
+		FirefoxDriver driver = new FirefoxDriver();
+		driver.manage().window().maximize();
+		driver.get("https://www.gmail.com");
+		Thread.sleep(5000);
+		WebElement email = driver.findElement(By.cssSelector("input[id $= 'rId']"));
+		email.sendKeys("sandeshhs6460@gmail.com");
+	}
+}
+
+-------------------------------------------------------------------------------
+contains:
+---------
+WAS to open the Firefox browser and navigate to gmail application and type the email using 
+CSS selectors [sub string - contains]
+
+
+email:
+------
+<input type="email" class="whsOnd zHQkBf" jsname="YPqjbf" autocomplete="username" spellcheck="false" tabindex="0" aria-label="Email or phone" name="identifier" value="" autocapitalize="none" id="identifierId" dir="ltr" data-initial-dir="ltr" data-initial-value="">
+
+"input[id *= 'tifi']"
+
+Program:
+--------
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+public class Launch25
+{
+	public static void main(String[] args) throws InterruptedException
+	{
+		FirefoxDriver driver = new FirefoxDriver();
+		driver.manage().window().maximize();
+		driver.get("https://www.gmail.com");
+		Thread.sleep(5000);
+		WebElement email = driver.findElement(By.cssSelector("input[id *= 'tifi']"));
+		email.sendKeys("sandeshhs6460@gmail.com");
+	}
+}
+
+----------------------------------------------------------------------------------
+
+CssSelector:
+------------
+1. tag & id 
+-----------
+Syntax:
+-------
+	"tagname#id"
+***********************************
+2. tag & class 
+--------------
+Syntax:
+-------
+	"tagname.class"
+***********************************
+3. tag & attribute 
+------------------
+Syntax:
+-------
+	"tagname[attribute_name = 'attribute_value']"
+***********************************
+4. tag ,class & attribute 
+--------------------------
+Syntax:
+-------
+	"tagname.class[attribute_name = 'attribute_value']"
+***********************************
+5.Substrings
+--------------------------------------------------------------------------------------------
+startswith:
+-----------
+Syntax:
+-------
+"tagname[attribute_name ^= 'attribute_value']"
+--------------------------------------------------------------------------------------------
+endswith
+---------
+Syntax:
+-------
+"tagname[attribute_name $= 'attribute_value']"
+----------------------------------------------------------------------------------------------
+contains
+--------
+Syntax:
+-------
+"tagname[attribute_name *= 'attribute_value']"	
+----------------------------------------------------------------------------------------------
+
+Scenario to be automated:
+-------------------------
+Open the Firefox Browser 
+Maximize the Window
+Navigate to https://www.webmath.com/ website
+Click on General Math
+Under drop down select Interest , simple
+Enter the principal amount
+Enter the percent of interest 
+Enter the year 
+Click on Find the Amount of interest 
+Wait for 5 seconds
+close the browser
+
+
+General Math:
+-------------
+<a href="/index2.html" title="General Math">General Math</a>
+
+DropDown:
+----------
+Choose Math Help Item
+
+<select style="margin:0px 0px 0px 5px;width:305px;" onchange="redirectPageAction()" name="topicItem" id="topicItem">
+
+<option value="simpinterest.html">Interest, Simple</option>
+
+HTML code for principal amount
+-------------------------------
+<input type="text" name="principal" maxlength="10" size="10">
+
+HTML code for percent of interest 
+--------------------------------
+<input type="text" name="interest" maxlength="10" size="10">
+
+HTML code for year:
+------------------
+<input type="text" name="desired_time" maxlength="5" size="5">
+
+HTML code for Find the Amount of interest :
+-------------------------------------------
+<input type="submit" value="Find the amount of interest">   
+
+
+program
+-------
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.Select;
+
+public class Demo1 
+{
+	public static void main(String[] args) throws InterruptedException
+	{
+		// Open the FireFox Browser 
+		FirefoxDriver driver = new FirefoxDriver();
+		driver.manage().window().maximize();
+	
+		// Navigate to https://www.webmath.com/ website
+		driver.get("https://www.webmath.com/");
+	
+		// Click on General Math
+		WebElement general_math_link = driver.findElement(By.linkText("General Math"));
+		general_math_link.click();
+		
+		// Selecting the drop-down 
+		Select drop_down = new Select(driver.findElement(By.cssSelector("select[id *='topicItem']")));
+		// matching the desired option[ Interest , simple]
+		drop_down.selectByVisibleText("Interest, Simple");
+		
+		//Enter the principal amount
+		WebElement p = driver.findElement(By.name("principal"));
+		p.sendKeys("10000");
+		
+		//Enter the percent of interest 
+		WebElement i = driver.findElement(By.name("interest"));
+		i.sendKeys("10");
+		
+		//Enter the year 
+		WebElement y = driver.findElement(By.name("desired_time"));
+		y.sendKeys("1");
+		
+		//Click on Find the Amount of interest 
+		WebElement f = driver.findElement(By.cssSelector("input[value='Find the amount of interest']"));
+		f.click();
+		
+		//Wait for 5 seconds
+		Thread.sleep(5000);
+		
+		//close the browser
+		driver.close();
+	}
+}
+
+--------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

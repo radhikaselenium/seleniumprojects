@@ -1,0 +1,588 @@
+Scenario to be automated:  
+-------------------------
+Open the Chrome Browser 
+Navigate to https://www.browserstack.com website
+Click on Sign in button 
+Enter the email [sandeshhs6460@gmail.com]
+Enter the password [12345678]
+Click on Login button 
+Wait for 5 seconds
+Click on Sign out button
+close the browser
+
+NOTE:
+-----
+Chrome Browser - Version - 106.0.5249.119
+Driver S/w -  chromedriver - 2.25
+
+Command to kill the Background Process:
+---------------------------------------
+taskkill /F /IM chromedriver.exe /T
+
+---------------------------------------------
+Locators for web elements:
+--------------------------
+Sign in - linkText
+input - id - user_email_login
+input - id - user_password
+input - name - commit
+button - id - account-menu-toggle
+Sign out - linkText
+
+Program:
+--------
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+
+public class Launch41 
+{
+	public static void main(String[] args) throws InterruptedException
+	{
+
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("https://www.browserstack.com");
+		
+		WebElement sign_in = driver.findElement(By.linkText("Sign in"));
+		sign_in.click();
+		
+		WebElement un = driver.findElement(By.id("user_email_login"));
+		WebElement pwd = driver.findElement(By.id("user_password"));
+		
+		un.sendKeys("sandeshhs6460@gmail.com");
+		pwd.sendKeys("12345678");
+		
+		Thread.sleep(5000);
+		
+		WebElement accept = driver.findElement(By.xpath("//button[@id='accept-cookie-notification']"));
+		accept.click();
+		
+		WebElement login = driver.findElement(By.name("commit"));
+		login.click();
+	
+		Thread.sleep(5000);
+		
+		WebElement b = driver.findElement(By.xpath("//button[@id='account-menu-toggle']"));
+		Actions a = new Actions(driver);
+		a.moveToElement(b).build().perform();
+		
+		WebElement logout = driver.findElement(By.xpath("//a[@title='Sign out' and @id ='sign_out_link']"));
+		logout.click();
+	
+		driver.close();
+	
+	}	
+				
+}
+
+--------------------------------------------------------------------------------------
+
+
+
+program using only xpath:
+-------------------------
+Using Xpath:
+-----------
+
+(//a[text()='Sign in'])[1] 
+	or
+(//a[@title='Sign In'])[1]
+		
+------------------------------
+//input[@id='user_email_login']
+-------------------------------
+//input[@id='user_password']
+-------------------------------	
+button[@id='accept-cookie-notification']
+---------------------------------------------
+//input[@type='submit' and @name='commit' and @id='user_submit']
+	or
+(//input[@type='submit'])[1]
+-------------------------------
+//button[@id='account-menu-toggle']
+------------------------------------
+//a[@title='Sign out' and @id ='sign_out_link']
+
+
+
+Program:
+--------
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+
+public class Launch42
+{
+	public static void main(String[] args) throws InterruptedException
+	{
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("https://www.browserstack.com");
+		driver.findElement(By.xpath("(//a[@title='Sign In'])[1]")).click();
+		driver.findElement(By.xpath("//input[@id='user_email_login']")).sendKeys("sandeshhs6460@gmail.com");
+		driver.findElement(By.xpath("//input[@id='user_password']")).sendKeys("12345678");
+		Thread.sleep(5000);
+		driver.findElement(By.xpath("//button[@id='accept-cookie-notification']")).click();
+		driver.findElement(By.xpath("(//input[@type='submit'])[1]")).click();
+		Thread.sleep(5000);
+		WebElement b = driver.findElement(By.xpath("//button[@id='account-menu-toggle']"));
+		Actions a = new Actions(driver);
+		a.moveToElement(b).build().perform();
+		driver.findElement(By.xpath("//a[@title='Sign out' and @id ='sign_out_link']")).click();
+		driver.close();
+	}	
+				
+}
+
+
+--------------------------------------------------------------------------------------
+
+Handling the Dropdown or ComboBox
+----------------------------------
+Syntax
+------
+		Select se = new Select(driver.findElement(By.identify the web element));
+		se.optionmethod();]
+		
+	1. Create the object of Select class	
+	2. Identify the Drop down's web element
+	3. using the reference variable of Select Object call any of the below methods 
+		SelectByIndex(int)
+		SelectByValue(String)
+		SelectByVisibleText(String)
+		
+Scenario to be automated:
+-------------------------
+		Open the Chrome Browser 
+		Navigate to https://www.webmath.com/ website
+		Click on General Math
+		Under drop down select Interest , simple
+		close the browser
+		
+------------------------------
+HTML code for drop down:
+------------------------
+<select style="margin:0px 0px 0px 5px;width:305px;" onchange="redirectPageAction()" name="topicItem" id="topicItem">
+
+HTML code for Interest, Simple:
+-------------------------------
+<option value="simpinterest.html">Interest, Simple</option>    </select>  
+
+program:
+--------
+package autosel;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
+
+public class Launch43
+{
+	public static void main(String[] args) throws InterruptedException
+	{
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("https://www.webmath.com/");
+		
+		WebElement link = driver.findElement(By.linkText("General Math"));
+		link.click();
+		Thread.sleep(5000);
+		
+		Select se = new Select(driver.findElement(By.cssSelector("select[id*='topicItem']")));
+		se.selectByVisibleText("Interest, Simple");
+		
+		Thread.sleep(5000);
+		driver.close();
+	}				
+}
+
+---------------------------------------------------------------------------------------
+Synchronization:
+----------------
+	Synchronization is a process of maintaining the speed of "Test Tool" with "s/w under test".
+		
+Generally in Automation Testing we have 2 main components
+	1. Application Under Test [https://www.browserstack.com]
+	2. Test Automation Tool [Selenium WebDriver]
+
+NOTE:
+-----
+	--> Synchronization is a mechanism which involves more than one components to work in parallel with each other 
+	--> Both the components[Application Under Test  and Test Automation Tool] will operate on their own speed.
+	--> We should write a script in such a way that both of these components should work in same desired speed.
+	--> If its not matching then it might lead to "NoSuchElementException"
+	
+
+Why Synchronization?
+	--> During the Test execution the test tool gives the instructions one by one with same speed to the Application under test. 
+	--> But the Application under test will take time to execute the instructions and stops the execution 
+	--> In order to keep both the components in sync we should use "Synchronization"
+		
+
+Synchronization is divided into 2 Types:
+----------------------------------------
+1. Unconditional Synchronization
+2. Conditional Synchronization
+
+
+1. Unconditional Synchronization:
+---------------------------------
+Scenario to be automated:
+-------------------------
+Open the Chrome Browser 
+Navigate to https://www.browserstack.com website
+Click on Login button 
+Enter the email/phone number
+Enter the password
+Click on Login button 
+Click on Logout button
+close the browser
+
+program:
+--------
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+
+public class Launch44
+{
+	public static void main(String[] args) throws InterruptedException
+	{
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("https://www.browserstack.com");
+		driver.findElement(By.xpath("(//a[@title='Sign In'])[1]")).click();
+		Thread.sleep(5000);
+		driver.findElement(By.xpath("//input[@id='user_email_login']")).sendKeys("sandeshhs6460@gmail.com");
+		driver.findElement(By.xpath("//input[@id='user_password']")).sendKeys("12345678");
+		Thread.sleep(5000);
+		driver.findElement(By.xpath("//button[@id='accept-cookie-notification']")).click();
+		driver.findElement(By.xpath("(//input[@type='submit'])[1]")).click();
+		Thread.sleep(5000);
+		WebElement b = driver.findElement(By.xpath("//button[@id='account-menu-toggle']"));
+		Actions a = new Actions(driver);
+		a.moveToElement(b).build().perform();
+		driver.findElement(By.xpath("//a[@title='Sign out' and @id ='sign_out_link']")).click();
+		driver.close();
+	}				
+}
+
+----------------------------------------------------------------------------------------
+Disadvantages of using Thread.sleep()/Unconditional Synchronization:  [Important]
+--------------------------------------------------------------------
+1. Let us assume we have used 5 Seconds delay using Thread.sleep(5000) for a web page to load its web elements but if the web page gets loaded within 2Seconds , then the remaining 3 Seconds will be wasted. 
+It affects the efficiency of the Automation Testing
+
+2. Let us assume we have used 5 Seconds delay using Thread.sleep(5000) for a web page to load its web elements but if the web page didn't get loaded within 5Seconds , then it will lead to "NoSuchElementException"
+
+Because of the above mentioned disadvantages Unconditional Synchronization will not be used in the industry rather they will use Conditional Synchronization 
+
+-------------------------------------------------------------------------------------------------------
+
+2. Conditional Synchronization:
+-------------------------------
+
+There are 3 types of Conditional Synchronization
+	1. Implicit Wait
+	2. Explicit Wait 
+	3. Page Load Timeout
+	
+1. Implicit Wait:
+-----------------
+	Implicit waits will be always applied on findElement() and findElements()
+
+Syntax:
+-------
+implicitlyWait(Duration.ofSeconds(20))
+
+driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+--------------------------------------------------------------------------------------
+
+Scenario to be automated:
+-------------------------
+Open the Chrome Browser 
+Navigate to https://www.browserstack.com website
+Click on Login button 
+Enter the email/phone number
+Enter the password
+Click on Login button 
+Click on Logout button
+close the browser
+	
+	
+Program:
+--------
+import java.time.Duration;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+
+public class Launch45
+{
+	public static void main(String[] args) throws InterruptedException
+	{
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("https://www.browserstack.com");
+		driver.findElement(By.xpath("(//a[@title='Sign In'])[1]")).click();
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+		driver.findElement(By.xpath("//input[@id='user_email_login']")).sendKeys("sandeshhs6460@gmail.com");
+		driver.findElement(By.xpath("//input[@id='user_password']")).sendKeys("12345678");
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+		driver.findElement(By.xpath("//button[@id='accept-cookie-notification']")).click();
+		driver.findElement(By.xpath("(//input[@type='submit'])[1]")).click();
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+		WebElement b = driver.findElement(By.xpath("//button[@id='account-menu-toggle']"));
+		Actions a = new Actions(driver);
+		a.moveToElement(b).build().perform();
+		driver.findElement(By.xpath("//a[@title='Sign out' and @id ='sign_out_link']")).click();
+		driver.close();
+	}				
+}
+
+----------------------------------------------------------------------------------------------
+NOTE:
+-----
+ofSeconds()
+ofMinutes()
+ofHours()
+ofDays()
+----------------------------------------------------------------------------------------------
+
+NOTE:
+-----
+
+Diagram 1
+
+Diagram 2
+
+
+	--> Thread.sleep approach is not recommended because if we specify the sleep duration for 5 sec then selenium will perform the action after 5 seconds.Even the web element is identified within 5 seconds selenium would not be able to perform the action.
+
+	--> This problem can we overcome by using the Implicit wait 
+
+	--> In the below program the implicit wait interval is specified as 20 seconds
+	--> It does not mean that the selenium should wait for 20 seconds and later perform the actions
+	--> It means 20 Seconds is the maximum amount of time that the selenium should wait to perform the actions.
+	--> If the web element is located within 20 seconds immediately action would be performed.If the web element is not identified after 20 seconds then "NoSuchElementException" would be displayed 
+	--> Selenium would be trying to find the elements in every 0.5 sec and 
+	0.5 sec . This is considered as "Polling Interval/Polling Time"
+	--> Selenium would perform polling for every 0.5 sec till 20 Seconds
+
+----------------------------------------------------------------------------------------------
+
+2. Explicit Wait:
+-----------------
+
+Syntax:
+-------
+WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(20));
+WebElement sign_out = wait.until(ExpectedConditions.visibilityOfElementLocated(By.Locators("Data")));
+		
+		
+		
+Scenario to be automated:
+-------------------------
+Open the Chrome Browser 
+Navigate to https://www.browserstack.com website
+Click on Login button 
+Enter the email/phone number
+Enter the password
+Click on Login button 
+Click on Signout button
+close the browser
+
+Program:
+--------
+import java.time.Duration;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+public class Launch46
+{
+	public static void main(String[] args) throws InterruptedException
+	{
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("https://www.browserstack.com");
+		driver.findElement(By.xpath("(//a[@title='Sign In'])[1]")).click();
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+		driver.findElement(By.xpath("//input[@id='user_email_login']")).sendKeys("sandeshhs6460@gmail.com");
+		driver.findElement(By.xpath("//input[@id='user_password']")).sendKeys("12345678");
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+		driver.findElement(By.xpath("//button[@id='accept-cookie-notification']")).click();
+		driver.findElement(By.xpath("(//input[@type='submit'])[1]")).click();
+		
+		WebElement b = driver.findElement(By.xpath("//button[@id='account-menu-toggle']"));
+		Actions a = new Actions(driver);
+		a.moveToElement(b).build().perform();
+		
+		driver.findElement(By.xpath("//a[@title='Sign out' and @id ='sign_out_link']")).click();
+		driver.close();
+		
+		// Explicit Wait
+		WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(20));
+		WebElement sign_out = wait.until(ExpectedConditions.visibilityOfElementLocated(By.linkText("Sign out")));
+		sign_out.click();
+				
+		driver.close();
+	}				
+}
+
+------------------------------------------------------------------------------------------
+
+
+Difference b/w Implicit Wait and Explicit Wait: [Imp]
+------------------------------------------------
+Diagram 3
+
+
+------------------------------------------------------------------------------------------
+
+WAS to count the total number of links in the https://www.browserstack.com WebPage. After displaying the count iterate through all the links and display the LinkText associated with all the links 
+
+import java.util.List;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Launch47
+{
+	public static void main(String[] args) throws InterruptedException
+	{
+			WebDriver driver = new ChromeDriver();
+			driver.manage().window().maximize();
+			driver.get("https://www.browserstack.com");
+			List<WebElement> links = driver.findElements(By.tagName("a"));
+			
+			int size = links.size();
+			System.out.println(size);
+			
+			for (int i = 0; i<size ; i++)
+			{
+			String text  = links.get(i).getText();
+			System.out.println(text);
+			}
+			
+			driver.close();
+	}
+}
+
+				
+				
+o/p:
+----
+154
+
+
+
+------------------------------------------------------------------------------------------
+
+
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,457 @@
+HTML code for Parent Page to create a link in-order to open another Child Page in another Tab
+
+page1.html:
+-----------
+<html>
+<head>
+	<title>PAGE-1</title>
+</head>
+<body>
+
+	<p>This is Parent Page</p>
+	<a href="page2.html" target="blank">Go to child page</a>
+	
+</body>
+</html>
+
+page2.html:
+-----------
+<html>
+<head>
+	<title>PAGE-2</title>
+</head>
+<body>
+	<p>This is a Child page</p>
+</body>
+</html>
+
+program:
+--------
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Launch26
+{
+	public static void main(String[] args) throws InterruptedException
+	{
+		WebDriver driver = new ChromeDriver();
+		driver.get("E:/Excelr_Selenium_Sep7/HTML/page1.html");
+		
+		Thread.sleep(5000);
+			
+		WebElement link = driver.findElement(By.linkText("Go to child page"));
+		link.click();
+		Thread.sleep(5000);
+		
+		driver.close();
+	}
+}
+
+Diagram 1
+
+o/p:
+----
+Parent tab got closed
+
+NOTE:
+-----
+	In the above program if we call close() then it would close the Parent Tab, not the child tab
+	
+
+program:
+--------
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Launch27
+{
+	public static void main(String[] args) throws InterruptedException
+	{
+		WebDriver driver = new ChromeDriver();
+		driver.get("E:/Excelr_Selenium_Sep7/HTML/page1.html");
+		
+		Thread.sleep(5000);
+			
+		WebElement link = driver.findElement(By.linkText("Go to child page"));
+		link.click();
+		Thread.sleep(5000);
+		
+		driver.quit();
+	}
+}
+
+NOTE:
+-----
+	--> using quit() we can close all the tabs of the browser in other words we can close the browser itself
+	
+close():
+--------
+Parent Tab   
+
+quit():
+-------
+Parent Tab   
+Child Tab
+
+Difference b/w close() and quit():
+-----------------------------------
+using close() we can only close the parent tab not the child tabs 
+using quit() we can close all the parent tabs and child tabs 
+
+********************************************************************
+X-Path: [imp]
+-------
+	--> X-Path is a path which is obtained by traversing the HTML page structure 
+	--> Whenever we fail to identify the web elements using the above locators then we should go for X-Path
+
+login Page in HTML:
+-------------------
+login.html
+----------
+<html>
+<head>
+	<title>Login</title>
+</head>
+<body>
+	username <input type="text"><br>
+	password <input type="text"><br>
+</body>
+</html>
+
+NOTE:
+-----
+	--> For the above HTML code if we try to automate username and password we can not identify the web element[password] using the locators what he have learnt till now 
+	--> So in order to overcome that scenario we have to use the last advanced locator xpath
+	
+Diagram 2
+
+Tree Structure:
+---------------
+Diagram 3
+
+program to identify both username and password web element:
+------------------------------------------------------------
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Launch28
+{
+	public static void main(String[] args) throws InterruptedException
+	{
+		WebDriver driver = new ChromeDriver();
+		driver.get("E:/Excelr_Selenium_Sep7/HTML/login.html");
+		
+		Thread.sleep(5000);
+			
+		WebElement un = driver.findElement(By.xpath("/html/body/input[1]"));
+		un.sendKeys("sandesh");
+		Thread.sleep(3000);
+		
+		WebElement pwd = driver.findElement(By.xpath("/html/body/input[2]"));
+		pwd.sendKeys("12345");
+		Thread.sleep(3000);
+		driver.close();
+		
+	}
+}
+
+------------------------------------------------------------------------
+
+Example 1:
+----------
+
+demo1.html
+----------
+<html>
+	<body>
+		<div>
+			<input type = "text" value = "P"/>
+			<input type = "text" value = "Q"/>
+		</div>
+		
+		<div>
+			<input type = "text" value = "R"/>
+			<input type = "text" value = "S"/>
+		</div>
+	</body>
+</html>
+
+Diagram 4
+
+Table - Diagram 5
+
+----------------------------------------------------------------------------------------
+NOTE:
+-----
+--> Once u inspect --> Control + F 
+----------------------------------------------------------------------------------------
+
+X-Path are classified into 2 types:
+-----------------------------------
+1. Absolute xpath
+2. Relative xpath 
+
+1. Absolute xpath:
+------------------
+	--> Absolute xpath are such xpath which start from root node[HTML]
+	--> Absolute xpath are represented using '/'
+	--> All the xpath discussed earlier will come under "Absolute xpath"
+	--> Absolute xpath are complete xpath which starts from the root node and move through all the immediate child element
+
+Example 2:
+----------
+Diagram 6
+
+demo2.html
+----------
+<html>
+	<body>
+		<div>
+			<input type = "text" value = "A"/>
+			<input type = "text" value = "B"/>
+			<input type = "text" value = "C"/>
+		</div>
+		<div>
+			<input type = "text" value = "P"/>
+			<input type = "text" value = "Q"/>
+			<input type = "text" value = "R"/>
+			
+		</div>
+	</body>
+</html>
+
+Tree Structure:
+---------------
+Diagram 7
+
+
+Table - Diagram 8
+
+Disadvantage:
+--------------
+	--> Absolute xpath are not referred in the industry because its lengthy to use
+	--> Time Consuming
+
+So in the industry people will be using Relative xpath
+
+----------------------------------------------------------------------
+2. Relative xpath:
+------------------
+	--> Relative xpath are not complete paths
+	--> Relative xpath starts from any intermediate node	
+	--> It will always starts with '//'
+	
+Diagram 9
+
+demo3.html
+----------
+<html>
+<body>
+	<div>
+		<input type = "text" value = "P"/>
+		<input type = "text" value = "Q"/>
+	</div>
+	<div>
+		<input type = "text" value = "R"/>
+		<input type = "text" value = "S"/>
+	</div>
+</body>
+</html>
+	
+Diagram 10 -  Tree Structure
+
+Table -  Diagram 11
+	
+P - //div[1]//input[1]
+PR - //div[1]//input[1] | //div[2]//input[1]
+
+----------------------------------------------------------------------------------
+Types of Relative Xpath:
+------------------------
+1. R-Xpath using attributes
+2. R-Xpath using Multiple attributes
+3. R-Xpath using AND, OR operators
+
+Write the xpath to match the email and password field of Facebook application
+
+HTML code for email field:
+--------------------------
+<input type="text" class="inputtext _55r1 _6luy" name="email" id="email" data-testid="royal_email" placeholder="Email address or phone number" autofocus="1" aria-label="Email address or phone number">
+
+HTML code for Password field:
+-----------------------------
+<input type="password" class="inputtext _55r1 _6luy _9npi" name="pass" id="pass" data-testid="royal_pass" placeholder="Password" aria-label="Password">
+-------------------------------------------------------------------------------
+
+1. R-Xpath using attributes:
+----------------------------
+Syntax:
+-------
+//tagname[@attr_name = 'Value']
+
+Write the xpath to match the email field of facebook application
+
+//input[@id='email']
+
+------------------------------------------------------------------------------------
+
+2. R-Xpath using Multiple attributes:
+-------------------------------------
+Syntax:
+-------
+//tagname[@attr_name = 'Value'][@attr_name = 'Value']
+
+Write the xpath to match the email and password field of facebook application
+
+email:
+------
+//input[@id='email'][@name='email']
+
+password:
+---------
+//input[@id='pass'][@name='pass']
+
+------------------------------------------------------------------------------------
+
+3. R-Xpath using using AND, OR operators:
+------------------------------------------
+Syntax:
+-------
+//tagname[@attr_name = 'Value' and @attr_name = 'Value']
+//tagname[@attr_name = 'Value' or @attr_name = 'Value']
+
+Write the xpath to match the Email and password field of Facebook application
+
+email:
+------
+//input[@id='email' and @name='email']
+//input[@id='email' or @name='email']
+
+password:
+---------
+//input[@id='pass' and @name='pass']
+//input[@id='pass' or @name='pass']
+-------------------------------------------------------------------------------------------
+
+Xpath for Radio Buttons:
+------------------------
+Diagram 12
+
+radio.html:
+-----------
+<html>
+<body>
+		<input type = "radio" /> Male
+		<input type = "radio" /> Female
+		<input type = "radio" /> Others
+</body>
+</html>
+
+
+xpath for all the radio buttons:
+--------------------------------
+//input
+or 
+//input[@type = 'radio']
+
+Male - //input[1]
+
+---------------------------------------------------------------------------
+
+Assignment.html:
+----------------
+
+<html>
+	<body>
+		<div>
+			<input type = "text" value = "Virat"/>
+			<input type = "text" value = "Sachin"/>
+			<input type = "text" value = "Dhoni"/>
+		</div>
+		<div>
+			<input type = "text" value = "Sehwag"/>
+			<input type = "text" value = "Rohit"/>
+			<input type = "text" value = "Zaheer"/>
+			
+		</div>
+	</body>
+</html>
+
+
+Table - Diagram 13
+
+----------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+
+
+
+

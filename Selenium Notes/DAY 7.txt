@@ -1,0 +1,507 @@
+WAS to Open the Firefox browser and Once its opened then reduce the size of the browser to 50%, then close the browser
+
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+public class Launch29 
+{
+	public static void main(String[] args) throws InterruptedException
+	{
+		WebDriver driver = new FirefoxDriver();
+		Dimension dim = driver.manage().window().getSize();
+		System.out.println(dim);
+		System.out.println("The Width:  "+ dim.width);
+		System.out.println("The Height:  "+ dim.height);
+		
+		Dimension new_half_dim = new Dimension(dim.width/2,dim.height/2);
+		System.out.println("The New Width:  "+new_half_dim.width);
+		System.out.println("The New Height:  "+new_half_dim.height);
+		
+		//To set the size of the window
+		driver.manage().window().setSize(new_half_dim);
+		
+		Thread.sleep(5000);
+		driver.close();
+		
+	}
+}
+
+
+o/p:
+----
+(1294, 772)
+The Width:  1294
+The Height:  772
+The New Width:  647
+The New Height:  386
+
+----------------------------------------------------------------------------------------------
+NOTE:
+-----
+	--> getSize() is used to get the size of the browser
+	--> setSize() is used to set the size of the browser
+
+-------------------------------------------------------------------------------------------------------------
+WAS to get the LinkText, Tagname and Attribute of the web element
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+public class Launch30
+{
+	public static void main(String[] args) throws InterruptedException
+	{
+		WebDriver driver = new FirefoxDriver();
+		driver.get("https://www.spotify.com/");
+		Thread.sleep(5000);
+		
+		WebElement l1 = driver.findElement(By.linkText("Log in"));
+		l1.click();
+		System.out.println(l1.getText());
+		System.out.println(l1.getAttribute("href"));
+		System.out.println(l1.getTagName());
+	}
+}
+----------------------------------------------------------------------------------
+
+Switching from One Tab to Another Tab:
+--------------------------------------
+
+
+page1.html:
+-----------
+<html>
+<body>
+	<a href="page2.html" target="blank">Go to Page 2</a>
+</body>
+</html>
+
+
+page2.html:
+-----------
+<html>
+<body>
+	<a href="page3.html" target="blank">Go to Page 3</a>
+</body>
+</html>
+
+
+page3.html:
+-----------
+<html>
+<body>
+	<h1>Welcome to Selenium class</h1>
+</body>
+</html>
+
+program:
+--------
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Launch31
+{
+	public static void main(String[] args) throws InterruptedException
+	{
+	WebDriver driver = new ChromeDriver();
+	driver.get("E:\\Excelr_Selenium_Sep7\\HTML\\page1.html");
+	
+	WebElement link1 = driver.findElement(By.linkText("Go to Page 2"));
+	Thread.sleep(5000);
+	link1.click();
+	Thread.sleep(5000);
+	
+	WebElement link2 = driver.findElement(By.linkText("Go to Page 3"));
+	Thread.sleep(5000);
+	link2.click();
+	Thread.sleep(5000);
+	}
+}
+
+NOTE:
+-------
+ --> In the Above code it is leading to "NoSuchElementException" while identifying the Web element of a Child Tab, because the Reference Variable of Browser will always points to Parent Tab
+
+
+Diagram 1
+
+
+program:
+--------
+import java.util.Set;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Launch32
+{
+	public static void main(String[] args) throws InterruptedException
+	{
+	WebDriver driver = new ChromeDriver();
+	driver.get("E:\\Excelr_Selenium_Sep7\\HTML\\page1.html");
+	
+	WebElement link1 = driver.findElement(By.linkText("Go to Page 2"));
+	Thread.sleep(5000);
+	link1.click();
+	Thread.sleep(5000);
+	
+	// Code to fetch the address of Parent Tab
+	String P_addr = driver.getWindowHandle();
+	System.out.println(P_addr);
+	
+	// Code to fetch the address of Parent Tab as well as Child Tab
+	Set<String> P_C_addr = driver.getWindowHandles();
+	System.out.println(P_C_addr);
+	
+	for (String a : P_C_addr)
+	{
+	 driver.switchTo().window(a);
+	}
+	
+	WebElement link2 = driver.findElement(By.linkText("Go to Page 3"));
+	Thread.sleep(5000);
+	link2.click();
+	Thread.sleep(5000);
+	
+	
+	}
+}
+
+o/p:
+----
+CDwindow-EA2AB2995670C7318CCF0EBEA37532E5
+[CDwindow-EA2AB2995670C7318CCF0EBEA37532E5, CDwindow-EAE860097116C238CEBF35B37D3AACB0]
+
+
+NOTE:
+------
+--> getWindowHandle() is used to get the address of the Parent Tab
+--> The Return Type of getWindowHandle() is String
+--> Parent Tab Address - CDwindow-010EFC3708D8199F19A1C2F4F93ACA98
+
+------------------------------------------------
+--> getWindowHandles() used to get the address of both parent and child Tabs 
+--> The Return Type of getWindowHandles() is Set<String>
+--> Address of Both parent and child Tabs 
+[CDwindow-010EFC3708D8199F19A1C2F4F93ACA98, CDwindow-02E41E5937F1C3AF03D248FA3AA9E1BD]
+---------------------------------------------------------------------------------------------------------
+--> The for loop which is used in the above program will always make the driver to point to last tab
+--> With whatever the code we have written , we can not make the driver to point to any other intermediate tabs 
+--> The Problem can be resolved using the following approach
+------------------------------------------------------------------
+
+Generalized Approach for Switching from one tab to another:
+----------------------------------------------------------
+import java.util.ArrayList;
+import java.util.Set;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Launch33
+{
+	public static void main(String[] args) throws InterruptedException
+	{
+	WebDriver driver = new ChromeDriver();
+	driver.get("E:\\Excelr_Selenium_Sep7\\HTML\\page1.html");
+	
+	WebElement link1 = driver.findElement(By.linkText("Go to Page 2"));
+	Thread.sleep(5000);
+	link1.click();
+	Thread.sleep(5000);
+	
+	// Code to fetch the address of Parent Tab
+	String P_addr = driver.getWindowHandle();
+	System.out.println(P_addr);
+	
+	// Code to fetch the address of Parent Tab as well as Child Tab
+	Set<String> P_C_addr = driver.getWindowHandles();
+	System.out.println(P_C_addr);
+	
+	ArrayList<String> a = new ArrayList<String>(P_C_addr);
+	System.out.println(a);
+	
+	driver.switchTo().window(a.get(1));
+	
+	WebElement link2 = driver.findElement(By.linkText("Go to Page 3"));
+	Thread.sleep(5000);
+	link2.click();
+	Thread.sleep(5000);
+	
+	
+	}
+}
+
+o/p:
+----
+CDwindow-1D181AB20512ABDFE2664C2C67B0A449
+[CDwindow-1D181AB20512ABDFE2664C2C67B0A449, CDwindow-0C1FA777E613F2B17EDDAD2DB1F5C9C9]
+[CDwindow-1D181AB20512ABDFE2664C2C67B0A449, CDwindow-0C1FA777E613F2B17EDDAD2DB1F5C9C9]
+
+-----------------------------------------------------------------------------------------
+
+Alerts/Popups:
+--------------
+Handling PopUps/Alert in Selenium:
+----------------------------------
+	In total we have 3 Types of Pop Ups
+		1. Alert Box PopUps
+		2. Confirm Box PopUps
+		3. Prompt Box PopUps
+		
+Diagram 2		
+
+1. Alert Box PopUps:
+--------------------
+	--> These alerts are just informational alerts and have an OK button on them.
+	--> Users can click on the OK button after reading the message displayed on the alert box.
+	
+2. Confirm Box PopUps:
+----------------------
+	--> These alerts get some confirmation from the user in the form of accepting or dismissing the message box.
+	--> They are different from prompt alerts in a way that the user cannot enter anything as there is no text-box available. 
+	--> Users can only read the message and provide the inputs by pressing the OK/Cancel button
+	
+3. Prompt Box PopUps:
+---------------------
+	--> In Prompt alerts, some input requirement is there from the user in the form of text needs to entered in the alert box.
+	-->	A prompt alert box is displayed like above, where the user can enter his/her username and press the OK button or Cancel the alert box without entering any details .
+			
+Scenario to be Automated:
+--------------------------
+1. Open any browser
+2. Navigate to http://demo.guru99.com/test/delete_customer.php
+3. Enter some random ID and Check whether a Confirm Box PopUp is displayed or not
+4. Inside the Confirm Box PopUp Select Ok button or Cancel Button
+		
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Launch34 
+{
+	public static void main(String[] args) throws InterruptedException
+	{
+		String url  = "http://demo.guru99.com/test/delete_customer.php";
+		WebDriver driver = new ChromeDriver();
+		driver.get(url);
+		Thread.sleep(5000);
+		
+		driver.findElement(By.name("cusid")).sendKeys("1435");	
+		driver.findElement(By.name("submit")).submit();
+		
+		// Switching to Alert Window       
+        Alert a = driver.switchTo().alert();
+        
+        // Capturing alert message.    
+        String alertMessage= driver.switchTo().alert().getText();	
+        System.out.println(alertMessage);	
+ 
+        
+       // Accepting the alert		
+        a.accept();	 // to click on ok button
+       
+      // Dismiss the alert
+      //a.dismiss();  // to click on cancel button 
+		
+	}
+}
+	
+		
+----------------------------------------------------------------------------------------
+
+NOTE:
+-----
+--> To click on the ‘Cancel’ button of the alert.
+		driver.switchTo().alert().dismiss();
+		
+--> To click on the ‘OK’ button of the alert.
+		driver.switchTo().alert().accept();
+
+--> To capture the alert message.
+		driver.switchTo().alert().getText();
+		
+-->  To send some data to alert box.
+		driver.switchTo().alert().sendKeys("Text");
+
+What is Alert/PopUps in Selenium?
+	--> An Alert in Selenium is a small message box which appears on screen to give the user some information or notification.
+	--> It notifies the user with some specific information or error, asks for permission to perform certain tasks and it also provides warning messages as well.
+
+-------------------------------------------------------------------------------------
+Handling Frames in Selenium:
+----------------------------		
+	A Web Page inside another webpage is referred as "Frames" 
+		or
+	A web page embedded into another web page is referred as "Frames"
+	
+--> A frame in HTML can be created using <iframe> tag
+				
+page1.html
+----------
+<html>
+	<body>
+	
+	Firstname<input type="text" id="fname"/>
+	
+	</body>
+</html>		
+		
+page2.html:
+-----------
+<html>
+<body>
+
+	Middlename<input type="text" id="mname"/>
+	<iframe src = "page1.html" id = "nameinfo" name = "New Entry"></iframe>
+	
+</body>
+</html>	
+
+Program:
+--------
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Launch35
+{
+	public static void main(String[] args) throws InterruptedException
+	{
+		WebDriver driver = new ChromeDriver();
+		driver.get("E:\\Excelr_Selenium_Sep7\\HTML\\page2.html");
+		
+		WebElement mname = driver.findElement(By.id("mname"));
+		mname.sendKeys("Shree");
+		
+		// driver.switchTo().frame(0);
+		// driver.switchTo().frame("New Entry");
+		
+		driver.switchTo().frame("nameinfo");
+		
+		WebElement fname = driver.findElement(By.id("fname"));
+		fname.sendKeys("Bhavya");	
+	}
+		
+}
+
+-------------------------------------------------------------------------------------
+
+NOTE:
+-----
+Switching to Frames can be done in 2 ways
+	
+	1. driver.switchTo().frame(index)
+	2. driver.switchTo().frame(id/name)
+
+-------------------------------------------------------------------------------------
+
+Handling Tables:
+----------------
+
+Diagram 3
+
+tables.html
+-----------
+<html>
+<body>
+	<table border="1" id="tab">
+		<tbody>
+			<tr>
+				<td>Manual Testing</td>
+				<td>5000</td>	
+			</tr>
+			<tr>
+				<td>Selenium</td>
+				<td>8000</td>
+			</tr>
+			<tr>
+				<td>Projects</td>
+				<td>2000</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>	
+		
+Diagram 4 - Tree Structure
+
+program:
+--------
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Launch36
+{
+	public static void main(String[] args) throws InterruptedException
+	{
+		WebDriver driver = new ChromeDriver();
+		driver.get("E:\\Excelr_Selenium_Sep7\\HTML\\tables.html");
+		
+		List<WebElement> rows = driver.findElements(By.xpath("//table[@id='tab']/tbody/tr"));
+		int row_size = rows.size();
+		System.out.println(row_size); // 3
+		
+		List<WebElement> columns = driver.findElements(By.xpath("//table[@id='tab']/tbody/tr[1]/td"));
+		int column_size = columns.size();
+		System.out.println(column_size); // 2
+		
+		for (int i = 1; i <=row_size; i++) 
+		{
+			WebElement cname = driver.findElement(By.xpath("//table[@id='tab']/tbody/tr["+i+"]/td[1]"));
+			System.out.println(cname.getText());
+		}
+	}
+}
+		
+o/p:
+----
+3
+2
+Manual Testing
+Selenium
+Projects
+
+-----------------------------------------------------------------------------------------
+ 
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

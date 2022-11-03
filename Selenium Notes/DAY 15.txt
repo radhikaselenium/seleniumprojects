@@ -1,0 +1,468 @@
+Taking the Screenshot using Selenium:
+--------------------------------------
+import java.io.File;
+import java.io.IOException;
+
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.io.FileHandler;
+
+public class Screen
+{
+	static WebDriver driver;
+
+	public static void takeScreenShot(String fileName) throws IOException
+	{
+		// take the ScreenShot and store it as a file format
+		File f = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+		
+		// Copy the ScreenShot to the desired Location using copy()
+		FileHandler.copy( f , new File("C:\\Users\\sande\\Desktop\\Sep7thTestingBatch\\"+fileName+".jpg") );
+		
+	}
+	
+	public static void main(String[] args) throws IOException, InterruptedException 
+	{
+	
+		driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("https://www.facebook.com/");
+		takeScreenShot("FaceBook_LoginPage");
+		
+	}
+}
+
+
+
+------------------------------------------------------------------
+Scrolling in Selenium using JavascriptExecutor:
+-----------------------------------------------
+
+Scrolling using Pixel:
+----------------------
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Scroll
+{
+	public static void main(String[] args) 
+	{
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("https://www.amazon.in/");
+		
+		JavascriptExecutor js = (JavascriptExecutor)driver;
+	
+		// Scrolling by using Pixel
+		js.executeScript("window.scrollBy(0,1000)", "");
+	}
+		
+}
+
+
+Scrolling until desired web element :
+-------------------------------------
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Scroll
+{
+	public static void main(String[] args) 
+	{
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("https://www.amazon.in/");
+		
+		JavascriptExecutor js = (JavascriptExecutor)driver;
+	
+		//Scrolling till we find the Web Element
+		WebElement help = driver.findElement(By.xpath("//a[text()='Help']"));
+		js.executeScript("arguments[0].scrollIntoView()", help);
+	}
+		
+}
+
+
+--------------------------------------------------------------------------------------------
+
+SDLC Models:
+------------
+	SDLC is having soo many Models in which below are the important models
+
+1. Waterfall Model
+2. Spiral Model
+3. Prototype Model
+4. V & V Model
+5. Agile Model
+
+
+Agile Model: [Important]
+------------
+
+	--> It is one of the procedures followed to develop the S/w
+	--> Its a Part of SDLC
+
+
+	--> Agile means fast/speed/rapid
+	--> Agile model is having 3 types 
+			1. Scrum Method
+			2. Kanban Method
+			3. Extreme Programming
+
+Scrum Method:
+-------------
+	--> The name scrum got originated from RugBy Game
+	--> Scrum is a process where a group of people working together to achieve the goal
+	
+Diagram 1
+
+	--> Customer will give the requirement to the Company
+	--> BA will collect the requirement from the Customer i.e Backlog
+	--> "Backlog" is nothing but requirements in unprioritized manner
+	
+	--> Product Owner should convert Backlog into Product Backlog
+	--> "Product Backlog" is nothing but requirements in Prioritized manner
+	
+Sprint:
+-------
+	Its a time constraint or time frame or time duration [1/2 weeks] in which a set
+of functionalities should be developed and Tested
+	--> Sprint will be done by seeing Sprint Backlog
+	
+Scrum Master:
+-------------
+	"Scrum Master" is the lead for Scrum Team who is responsible to assign the tasks
+	to the Scrum team and conduct "Daily Stand Up Meetings"
+	
+Scrum Team:
+-----------
+	It is nothing but the team of Developers and Test Engineers who will work for 
+Sprint development
+
+Sprint Backlog:
+---------------
+	--> It a Document which will be prepared by conducting "Sprint Planning"
+	--> Under Sprint Backlog they will mention the functionalities which should be 
+developed for the current sprint
+
+Sprint Planning:
+----------------
+	Its a meeting conducted b/w Product Owner & Scrum Master where they will decide 
+the functionalities which should be developed for the current sprint
+	
+Kickoff Meeting:
+----------------
+	Its a meeting conducted b/w  Scrum Master & Scrum Team where they will decide 
+which functionalities has to should be developed and tested by which Team member 
+for the current sprint
+	
+
+Daily Stand Up Meetings:
+-------------------------
+	Its a meeting conducted b/w  Scrum Master & Scrum Team where they will discuss the
+below 3 things
+		--> What work we did yesterday?
+		--> Is there any challenge faced in yesterday's work ?
+		--> What work you will do Today ?
+		
+Release:
+--------
+	The developed & Tested Build of the current Sprint should be promoted to production
+by the deployment process using release links . This process is called as "Release"
+
+Sprint Retrospect Meeting:
+--------------------------	
+	After release is done ,Sprint Retrospect Meeting will be conducted for discussing 
+the following things
+	--> Any obstacles in the Release
+	--> Is the release went well?
+	
+NOTE:
+------
+	After 1st Sprint is completed again Scrum Master & Product Owner will conduct 
+Sprint Planning for the 2nd Sprint
+
+-----------------------------------------------------------------------------------------
+Exception Handling
+------------------
+	The exception is an unwanted or unexpected event that occurs in the execution of the program, which disturbs the normal flow of the program.
+
+Diagram 2
+
+compile time error : 
+	The mistake done by the programmer in the code which is caught by the compiler during the compilation phase.
+
+run-time error : 
+	The faulty inputs given by the user during the execution time leads to runtime error and it is also called 'EXCEPTION'.
+
+	Exception handling is the alternative way of writing the code to continue the normal flow of the program. 
+
+
+Diagram 3
+
+Diagram 4
+
+NORMAL TERMINATION:
+-------------------
+import java.util.Scanner;
+
+public class Java1
+{
+	public static void main(String[] args) 
+	{
+		Scanner sc = new Scanner(System.in);
+		System.out.println("enter the value for A");
+		int a = sc.nextInt();
+		System.out.println("enter the value for B");
+		int b = sc.nextInt();
+		System.out.println("A/B is ="+(a/b));
+		
+	}
+
+}
+------------------------------------------------
+NOTE: Exception can be handled with the help of try and catch block.
+
+syntax:
+-------
+try
+{
+	risky code
+}
+catch (** e)
+{
+	alternative code to handle the exception
+}
+
+------------------------------------------------
+import java.util.Scanner;
+
+public class Java1
+{
+	public static void main(String[] args) 
+	{
+		Scanner sc = new Scanner(System.in);
+		System.out.println("enter the value for A");
+		int a = sc.nextInt();
+		System.out.println("enter the value for B");
+		int b = sc.nextInt();
+		try
+		{
+			System.out.println("A/B is ="+(a/b));
+		}
+		catch (Exception e)
+		{
+			System.out.println("exception occurred b value must be non-zero positive number");
+		}
+		
+	}
+
+}
+
+---------------------------------------------------------------
+'throws' keyword
+------------------
+import java.util.Scanner;
+
+public class Java1
+{
+	public static void main(String[] args) throws ArithmeticException
+	{
+	
+		Scanner sc = new Scanner(System.in);
+		System.out.println("enter the value for A");
+		int a = sc.nextInt();
+		System.out.println("enter the value for B");
+		int b = sc.nextInt();
+		System.out.println("A/B is ="+(a/b));
+		
+	}
+
+}
+
+-----------------------------------------------------------------
+
+import java.io.*;
+
+class Demo 
+{
+	public static void main(String[] args) throws InterruptedException
+	{
+		Thread.sleep(10000);
+	}
+}
+
+-----------------------------------------------------------------
+ 
+Abstraction:
+------------
+	Abstraction is one of the important object-oriented features in java.
+It is the process of hiding the internal implementation and sharing only the related functionality to the user.
+
+abstraction: It is all about hiding the implementation (body) of an overridden method.
+encapsulation: It is all about hiding the data members(variables and methods).
+
+program without abstraction
+---------------------------
+class Vehicle
+{
+	void Move()
+	{
+		System.out.println("vehicle is moving");
+	}
+	void Start()
+	{
+		System.out.println("vehicle is started");
+	}
+}
+class Car extends Vehicle
+{
+	void Start()
+	{
+		System.out.println("self start or auto start");
+	}
+}
+
+class Bike extends Vehicle
+{
+	void Start()
+	{
+		System.out.println("kick start");
+	}
+}
+
+class Demo
+{
+	public static void main(String[] args) 
+	{
+		Vehicle V = new Vehicle();
+		v.Move();
+		v.Start();
+		
+		Car c = new Car();
+		Bike b = new Bike();
+
+		c.Move();
+		c.Start();
+		
+		b.Move();
+		b.Start();
+		
+	}
+}
+		
+
+program with abstraction
+-------------------------
+
+abstract class Vehicle
+{
+	void Move()
+	{
+		System.out.println("vehicle is moving");
+	}
+	abstract void Start();     // Abstract Method
+	
+}
+class Car extends Vehicle
+{
+	void Start()
+	{
+		System.out.println("self start or auto start");
+	}
+}
+
+class Bike extends Vehicle
+{
+	void Start()
+	{
+		System.out.println("kick start");
+	}
+}
+
+class Demo
+{
+	public static void main(String[] args) 
+	{
+		
+		Car c = new Car();
+		Bike b = new Bike();
+
+		c.Move();
+		c.Start();
+		
+		b.Move();
+		b.Start();
+		
+	}
+}
+	
+------------------------------------------------------------
+Note:
+-----
+1. ABSTRACT METHOD :  Abstract methods are overridden methods where it will be not have implementation.
+
+2. Abstract is a non access modifier keyword which used as prefix for abstract methods and classes.
+
+3. If any method is abstract in a class then that class is also considered as abstract class and prefixed with abstract keyword.
+
+4. For abstract classes we can not create the object(not required to create).
+
+5. All the abstract methods should end with the semicolon
+
+------------------------------------------------------------
+
+abstract class Bank
+{
+	abstract void roi();				// 100% abstraction 
+	
+}
+class Hdfc extends Bank
+{
+	void roi()
+	{
+		System.out.println("intrest rate is 8.5%");
+	}
+}
+class Icici extends Bank
+{
+	void roi()
+	{
+		System.out.println("intrest rate is 9.5%");
+	}
+}
+class  Demo1 
+{
+	public static void main(String[] args) 
+	{
+	Bank b;
+	
+	b = new Hdfc();   //upcasting
+	b.roi();
+	
+	b = new Icici();  //upcasting
+	b.roi(); 
+	}
+}
+
+NOTE:
+-----
+1. For abstract class we can not create object but we can have reference
+2. by parent reference we can perform upcasting and polymorphism can be achieved 
+3. abstract class which consist of only abstract methods is considered as 100% abstraction.
+
+------------------------------------------------------------------------
+
+
+
+
+
+
+
+
